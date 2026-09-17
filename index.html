@@ -284,6 +284,7 @@
   var lastScreen = null, tickHandle = null, hubTab = "invite", qrDrawn = null;
   var autoRevealQi = null, jumpScareHandle = null, lockInHandle = null;
   var qrStream = null, qrRAF = null;
+  var lockInShownQi = null;
 
   function now(){ return Date.now() + serverOffset; }
   function esc(s){ var d=document.createElement("div"); d.textContent = s==null?"":String(s); return d.innerHTML; }
@@ -368,6 +369,7 @@
       });
     }
     drawQr(screen);
+    maybeShowLockIn();
   }
 
   function topbar(screen){
@@ -923,6 +925,24 @@
     }, 1800);
   }
 
+  // Fires once per question, only once the reveal screen for that question
+  // shows up (i.e. after everyone's answered or the host reveals) — not the
+  // moment the player themselves taps a wrong answer.
+  function maybeShowLockIn(){
+    var st = state();
+    if(!st) return;
+    if(st.status === "lobby"){ lockInShownQi = null; return; }
+    if(isHost || st.status !== "reveal") return;
+    var qi = st.qIndex||0;
+    if(lockInShownQi === qi) return;
+    var mp = myPlayer();
+    var a = mp && mp.answers && mp.answers[qi];
+    if(a && a.lockIn){
+      lockInShownQi = qi;
+      lockInNotice();
+    }
+  }
+
   // ---------- actions ----------
   function genCode(){
     var s = "";
@@ -1059,8 +1079,12 @@
     var points = correct ? Math.round(500 + 500 * (1 - timeMs/limit)) : 0;
     if(hotStreak) points = Math.round(points * 1.2);
 
+    // 3+ wrong in a row: flag this answer so the LOCK IN notice shows once
+    // everyone's answered and the reveal screen comes up, not mid-question.
+    var lockIn = !correct && newColdStreak > 0 && newColdStreak % 3 === 0;
+
     var answers = Object.assign({}, mp.answers || {});
-    answers[qi] = { choice: choiceIdx, correct: correct, points: points, timeMs: timeMs, hotStreak: hotStreak };
+    answers[qi] = { choice: choiceIdx, correct: correct, points: points, timeMs: timeMs, hotStreak: hotStreak, lockIn: lockIn };
     var total = 0;
     Object.keys(answers).forEach(function(k){ total += answers[k].points || 0; });
 
@@ -1076,7 +1100,6 @@
     }
     lastScreen = null; render();
     if(!correct && newWrong > 0 && newWrong % 5 === 0) jumpScare(newWrong);
-    else if(!correct && newColdStreak > 0 && newColdStreak % 3 === 0) lockInNotice();
   }
 
   function startGame(){
