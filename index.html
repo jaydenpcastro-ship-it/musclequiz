@@ -183,6 +183,22 @@
   .leaderrow .lscore{font-weight:800;font-variant-numeric:tabular-nums;}
   .leaderrow.me{outline:1.5px solid var(--accent);}
 
+  .streaktag{font-size:12px;font-weight:800;color:var(--gold);white-space:nowrap;}
+  .hotnote{margin:-4px 0 10px;font-size:13px;font-weight:700;color:var(--gold);}
+
+  .jumpscare{
+    position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.88);cursor:pointer;animation:jsflash .18s steps(2) 3;
+  }
+  .jumpscare .js-inner{
+    display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;
+    animation:jsshake .38s ease-in-out 3;
+  }
+  .jumpscare .js-face{font-size:clamp(110px,42vw,220px);line-height:1;filter:drop-shadow(0 0 22px var(--bad));}
+  .jumpscare .js-text{font-family:'Fredoka';font-weight:700;font-size:clamp(22px,7vw,34px);color:#fff;letter-spacing:.04em;}
+  @keyframes jsflash{0%{background:rgba(255,255,255,.92);}100%{background:rgba(0,0,0,.88);}}
+  @keyframes jsshake{0%,100%{transform:translate(0,0) scale(1);}20%{transform:translate(-10px,6px) scale(1.04);}40%{transform:translate(9px,-7px) scale(.97);}60%{transform:translate(-8px,-5px) scale(1.03);}80%{transform:translate(7px,7px) scale(.98);}}
+
   .hostbar{
     position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;
     padding:12px max(16px, env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-right,0px));
@@ -232,6 +248,7 @@
   var roomCode = null, isHost = false, myPid = null;
   var roomChannel = null, roomLoaded = false, room = null;
   var lastScreen = null, tickHandle = null, hubTab = "invite", qrDrawn = null;
+  var autoRevealQi = null, jumpScareHandle = null;
 
   function now(){ return Date.now() + serverOffset; }
   function esc(s){ var d=document.createElement("div"); d.textContent = s==null?"":String(s); return d.innerHTML; }
@@ -269,6 +286,10 @@
     if(!myPid) return null;
     var ps = (room && room.players) || {};
     return ps[myPid] ? Object.assign({id:myPid}, ps[myPid]) : null;
+  }
+  function streakTag(p){
+    var n = (p && p.streak) || 0;
+    return n >= 2 ? ' <span class="streaktag">🔥' + n + '</span>' : '';
   }
   function timeLimitMs(){ return settings().timeLimitSec * 1000; }
   function questionAt(qi){
@@ -506,7 +527,7 @@
       '<div class="answers">' + tiles + '</div>' +
       (top.length ? '<div class="card"><h3 style="margin:0 0 10px;font-size:14px;">Leaderboard</h3>' +
         top.map(function(p,i){
-          return '<div class="leaderrow"><span class="rank">#'+(i+1)+'</span><span class="lname">'+esc(p.name)+'</span><span class="lscore">'+(p.totalScore||0)+'</span></div>';
+          return '<div class="leaderrow"><span class="rank">#'+(i+1)+'</span><span class="lname">'+esc(p.name)+streakTag(p)+'</span><span class="lscore">'+(p.totalScore||0)+'</span></div>';
         }).join("") + '</div>' : '');
   }
 
@@ -558,8 +579,9 @@
         return '<div class="ans ' + cls + (picked?" picked":"") + '">' + shapeSvg(m.shape) + '<span>' + esc(q3.options[idx]) + '</span></div>';
       }).join("");
       var headline = !mine ? "Time's up — no answer locked in" : (mine.correct ? "Correct! 🎉" : "Not this time");
+      var hotNote = (mine && mine.hotStreak) ? '<p class="hotnote">🔥 Hot streak bonus — 1.2x points!</p>' : '';
       return '<div class="card">' +
-          '<h2 style="margin:0 0 10px;font-size:20px;">' + headline + '</h2>' +
+          '<h2 style="margin:0 0 10px;font-size:20px;">' + headline + '</h2>' + hotNote +
           '<div class="revealline">' +
             '<div class="stat"><b style="color:' + (mine && mine.correct? "var(--good)":"var(--bad)") + '">' + (mine && mine.correct? "+"+mine.points : "0") + '</b><span>points</span></div>' +
             '<div class="stat"><b>' + (mp3? (mp3.totalScore||0) : 0) + '</b><span>total</span></div>' +
@@ -580,7 +602,7 @@
     var podium = top.map(function(p,i){
       var cls = i===0?"gold":(i===1?"silver":"bronze");
       var medal = i===0?"🥇":(i===1?"🥈":"🥉");
-      return '<div class="pod ' + cls + '"><div class="medal">' + medal + '</div><div class="pname">' + esc(p.name) + '</div><div class="pscore">' + (p.totalScore||0) + '</div></div>';
+      return '<div class="pod ' + cls + '"><div class="medal">' + medal + '</div><div class="pname">' + esc(p.name) + streakTag(p) + '</div><div class="pscore">' + (p.totalScore||0) + '</div></div>';
     }).join("");
     var rest = final.slice(3);
     return '<div class="card" style="text-align:center;">' +
@@ -591,7 +613,7 @@
       '</div>' +
       (top.length? '<div class="podium">' + podium + '</div>' : '') +
       (rest.length? '<div class="card">' + rest.map(function(p,i){
-        return '<div class="leaderrow' + (p.id===myPid?" me":"") + '"><span class="rank">#'+(i+4)+'</span><span class="lname">'+esc(p.name)+'</span><span class="lscore">'+(p.totalScore||0)+'</span></div>';
+        return '<div class="leaderrow' + (p.id===myPid?" me":"") + '"><span class="rank">#'+(i+4)+'</span><span class="lname">'+esc(p.name)+streakTag(p)+'</span><span class="lscore">'+(p.totalScore||0)+'</span></div>';
       }).join("") + '</div>' : '');
   }
 
@@ -695,14 +717,32 @@
   }
 
   // ---------- timer ----------
+  // Host only: once everyone in the room has answered, skip the rest of the
+  // countdown and go straight to the reveal. Fires at most once per question.
+  function maybeAutoReveal(){
+    if(!isHost) return;
+    var st = state();
+    if(!st || st.status !== "question") return;
+    var qi = st.qIndex||0;
+    if(autoRevealQi === qi) return;
+    var ps = playerList();
+    if(!ps.length) return;
+    var answered = ps.filter(function(p){ return p.answers && p.answers[qi]; }).length;
+    if(answered < ps.length) return;
+    autoRevealQi = qi;
+    revealAnswer();
+  }
+
   function tick(){
     if(tickHandle){ clearInterval(tickHandle); tickHandle = null; }
     var st = state();
     if(!st || st.status !== "question") return;
+    maybeAutoReveal();
     var limit = timeLimitMs();
     var startedAt = st.questionStartedAt;
     if(!startedAt) return;
     var step = function(){
+      maybeAutoReveal();
       var bar = document.getElementById("timerbar");
       var num = document.getElementById("timernum");
       if(!bar || !num) return;
@@ -718,6 +758,30 @@
     };
     step();
     tickHandle = setInterval(step, 150);
+  }
+
+  // ---------- jump scare ----------
+  // Lives on document.body, not inside #app — render() wipes #app on every
+  // state change (including realtime updates from other players).
+  function jumpScare(count){
+    var old = document.getElementById("jumpscare");
+    if(old && old.parentNode) old.parentNode.removeChild(old);
+    if(jumpScareHandle){ clearTimeout(jumpScareHandle); jumpScareHandle = null; }
+    var box = document.createElement("div");
+    box.id = "jumpscare";
+    box.className = "jumpscare";
+    box.setAttribute("role", "alert");
+    box.innerHTML = '<div class="js-inner">' +
+      '<div class="js-face" aria-hidden="true">💀</div>' +
+      '<div class="js-text">BOO! ' + count + ' wrong!</div>' +
+    '</div>';
+    var close = function(){
+      if(jumpScareHandle){ clearTimeout(jumpScareHandle); jumpScareHandle = null; }
+      if(box.parentNode) box.parentNode.removeChild(box);
+    };
+    box.addEventListener("click", close);
+    document.body.appendChild(box);
+    jumpScareHandle = setTimeout(close, 2000);
   }
 
   // ---------- actions ----------
@@ -791,7 +855,7 @@
   function joinAsPlayer(name){
     if(!sb || !roomCode) return;
     var pid = genId();
-    roomMerge(["players", pid], { name: name, joinedAt: Date.now(), totalScore: 0, answers: {} })
+    roomMerge(["players", pid], { name: name, joinedAt: Date.now(), totalScore: 0, answers: {}, streak: 0, wrongCount: 0 })
       .then(function(){
         myPid = pid;
         lsSet("mq_pid_" + roomCode, pid);
@@ -816,7 +880,7 @@
     var pid = genId();
     roomMerge(["players", pid], {
       name: name, joinedAt: Date.now(),
-      totalScore: 0, answers: {}, manual: true, claimed: false
+      totalScore: 0, answers: {}, streak: 0, wrongCount: 0, manual: true, claimed: false
     });
   }
 
@@ -840,21 +904,29 @@
     if(elapsed > limit) return; // past the time limit
     var timeMs = Math.max(0, Math.min(limit, elapsed));
     var correct = choiceIdx === questionAt(qi).correct;
+    var prevStreak = mp.streak || 0;
+    var newStreak = correct ? prevStreak + 1 : 0;
+    var hotStreak = correct && prevStreak >= 1; // 2nd correct in a row and up
+    var newWrong = correct ? (mp.wrongCount||0) : (mp.wrongCount||0) + 1;
     var points = correct ? Math.round(500 + 500 * (1 - timeMs/limit)) : 0;
+    if(hotStreak) points = Math.round(points * 1.2);
 
     var answers = Object.assign({}, mp.answers || {});
-    answers[qi] = { choice: choiceIdx, correct: correct, points: points, timeMs: timeMs };
+    answers[qi] = { choice: choiceIdx, correct: correct, points: points, timeMs: timeMs, hotStreak: hotStreak };
     var total = 0;
     Object.keys(answers).forEach(function(k){ total += answers[k].points || 0; });
 
-    roomMerge(["players", myPid], { answers: answers, totalScore: total });
+    roomMerge(["players", myPid], { answers: answers, totalScore: total, streak: newStreak, wrongCount: newWrong });
 
     // optimistic local lock so the tap feels instant
     if(room && room.players && room.players[myPid]){
       room.players[myPid].answers = answers;
       room.players[myPid].totalScore = total;
+      room.players[myPid].streak = newStreak;
+      room.players[myPid].wrongCount = newWrong;
     }
     lastScreen = null; render();
+    if(!correct && newWrong > 0 && newWrong % 5 === 0) jumpScare(newWrong);
   }
 
   function startGame(){
