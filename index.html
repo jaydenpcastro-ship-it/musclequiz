@@ -208,8 +208,7 @@
 <body>
 <div id="app"><div class="card"><div class="waiting"><div class="spinner"></div>Loading…</div></div></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
 <script src="config.js"></script>
 <script src="questions.js"></script>
@@ -229,9 +228,9 @@
   var CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no I/O/0/1
 
   var el = document.getElementById("app");
-  var fbdb = null, fbError = null, serverOffset = 0;
+  var sb = null, sbError = null, serverOffset = 0;
   var roomCode = null, isHost = false, myPid = null;
-  var roomRef = null, roomLoaded = false, room = null;
+  var roomChannel = null, roomLoaded = false, room = null;
   var lastScreen = null, tickHandle = null, hubTab = "invite", qrDrawn = null;
 
   function now(){ return Date.now() + serverOffset; }
@@ -240,10 +239,10 @@
   function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 
   function configured(){
-    var c = window.MQ_FIREBASE_CONFIG;
+    var c = window.MQ_SUPABASE_CONFIG;
     if(!c) return false;
-    if(!c.databaseURL || String(c.databaseURL).indexOf("PASTE_") === 0) return false;
-    if(!c.apiKey || String(c.apiKey).indexOf("PASTE_") === 0) return false;
+    if(!c.url || String(c.url).indexOf("PASTE_") === 0) return false;
+    if(!c.anonKey || String(c.anonKey).indexOf("PASTE_") === 0) return false;
     return true;
   }
 
@@ -284,7 +283,7 @@
   // ---------- screen routing ----------
   function computeScreen(){
     if(!configured()) return "setup";
-    if(fbError) return "fberror";
+    if(sbError) return "sberror";
     if(!roomCode) return "home";
     if(!roomLoaded) return "connecting";
     if(!room) return "badroom";
@@ -320,7 +319,7 @@
     var qi = (st && st.qIndex) || 0;
     var label = "";
     if(screen==="setup") label = "Setup";
-    else if(screen==="fberror") label = "Error";
+    else if(screen==="sberror") label = "Error";
     else if(screen==="home") label = "Start";
     else if(screen==="connecting") label = "Connecting";
     else if(screen==="badroom") label = "Not found";
@@ -338,10 +337,10 @@
   // ---------- bodies ----------
   function body(screen){
     if(screen==="setup") return setupBody();
-    if(screen==="fberror"){
+    if(screen==="sberror"){
       return '<div class="card"><h2 style="margin:0 0 6px;">Couldn\'t reach the database</h2>' +
-        '<p class="lede">' + esc(fbError) + '</p>' +
-        '<p class="lede">Check the values in <code>config.js</code> and that Realtime Database is enabled in your Firebase project.</p></div>';
+        '<p class="lede">' + esc(sbError) + '</p>' +
+        '<p class="lede">Check the values in <code>config.js</code> and that the schema from <code>schema.sql</code> has been run in your Supabase project.</p></div>';
     }
     if(screen==="connecting") return '<div class="card"><div class="waiting"><div class="spinner"></div>Connecting…</div></div>';
     if(screen==="home") return homeBody();
@@ -359,12 +358,12 @@
   function setupBody(){
     return '<div class="card">' +
       '<h2 style="margin:0 0 6px;">One-time setup needed</h2>' +
-      '<p class="lede">This quiz needs a free Firebase Realtime Database to sync everyone\'s answers. It takes about five minutes, once.</p>' +
+      '<p class="lede">This quiz needs a free Supabase project to sync everyone\'s answers. It takes about five minutes, once.</p>' +
       '<ol class="setup-steps">' +
-        '<li>Open <b>console.firebase.google.com</b> → <b>Add project</b> (skip Analytics).</li>' +
-        '<li><b>Build → Realtime Database → Create Database</b> → start in <b>test mode</b>.</li>' +
-        '<li>Gear icon → <b>Project settings</b> → <b>Your apps</b> → web <code>&lt;/&gt;</code> → register an app.</li>' +
-        '<li>Copy the <code>firebaseConfig</code> values it shows into <code>config.js</code> in this repo, and save.</li>' +
+        '<li>Open <b>supabase.com/dashboard</b> → <b>New project</b>.</li>' +
+        '<li><b>SQL Editor → New query</b> → paste the contents of <code>schema.sql</code> from this repo → <b>Run</b>.</li>' +
+        '<li><b>Project settings → API</b>.</li>' +
+        '<li>Copy the <b>Project URL</b> and <b>anon public</b> key into <code>config.js</code> in this repo, and save.</li>' +
       '</ol>' +
       '<p class="lede" style="margin-top:14px;">Once that file is saved, reload this page and the game is live.</p>' +
     '</div>';
@@ -728,20 +727,36 @@
     return s;
   }
 
+  function genId(){
+    if(window.crypto && crypto.randomUUID) return crypto.randomUUID().replace(/-/g,"").slice(0,16);
+    return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  }
+
+  function rpc(fn, args){
+    return sb.rpc(fn, args).then(function(res){
+      if(res.error) throw res.error;
+      return res.data;
+    });
+  }
+  function roomSet(path, value){ return rpc("room_set", { p_code: roomCode, p_path: path, p_value: value }); }
+  function roomMerge(path, patch){ return rpc("room_merge", { p_code: roomCode, p_path: path, p_patch: patch }); }
+  function serverNowMs(){ return rpc("room_now_ms", {}).then(function(v){ return Number(v); }); }
+
   function createRoom(){
-    if(!fbdb) return;
+    if(!sb) return;
     var code = genCode();
-    fbdb.ref("rooms/" + code).set({
-      state: { status:"lobby", qIndex:0, questionStartedAt:null, order:null, createdAt: firebase.database.ServerValue.TIMESTAMP },
-      settings: DEFAULT_SETTINGS
-    }).then(function(){
+    rpc("room_create", { p_code: code, p_data: {
+      state: { status:"lobby", qIndex:0, questionStartedAt:null, order:null, createdAt: Date.now() },
+      settings: DEFAULT_SETTINGS,
+      players: {}
+    }}).then(function(){
       lsSet("mq_host_" + code, "1");
       enterRoom(code, true);
-    }).catch(function(err){ fbError = err.message || String(err); render(); });
+    }).catch(function(err){ sbError = err.message || String(err); render(); });
   }
 
   function enterRoom(code, asHost){
-    if(roomRef) roomRef.off();
+    if(roomChannel){ sb.removeChannel(roomChannel); roomChannel = null; }
     roomCode = code;
     isHost = asHost || lsGet("mq_host_" + code) === "1";
     myPid = lsGet("mq_pid_" + code);
@@ -749,57 +764,67 @@
     hubTab = "invite";
     try{ history.replaceState(null, "", location.pathname + "?room=" + code); }catch(e){}
     render();
-    roomRef = fbdb.ref("rooms/" + code);
-    roomRef.on("value", function(snap){
+
+    sb.from("rooms").select("data").eq("code", code).maybeSingle().then(function(res){
+      if(res.error){ sbError = res.error.message || String(res.error); render(); return; }
       roomLoaded = true;
-      room = snap.val();
+      room = res.data ? res.data.data : null;
       render();
-    }, function(err){ fbError = err.message || String(err); render(); });
+    });
+
+    roomChannel = sb.channel("room:" + code)
+      .on("postgres_changes", { event:"*", schema:"public", table:"rooms", filter:"code=eq." + code }, function(payload){
+        roomLoaded = true;
+        room = payload.new ? payload.new.data : null;
+        render();
+      })
+      .subscribe();
   }
 
   function leaveRoom(){
-    if(roomRef){ roomRef.off(); roomRef = null; }
+    if(roomChannel){ sb.removeChannel(roomChannel); roomChannel = null; }
     roomCode = null; room = null; roomLoaded = false; isHost = false; myPid = null; lastScreen = null;
     try{ history.replaceState(null, "", location.pathname); }catch(e){}
     render();
   }
 
   function joinAsPlayer(name){
-    if(!fbdb || !roomCode) return;
-    var ref = fbdb.ref("rooms/" + roomCode + "/players").push();
-    ref.set({ name: name, joinedAt: firebase.database.ServerValue.TIMESTAMP, totalScore: 0, answers: {} })
-      .then(function(){
-        myPid = ref.key;
-        lsSet("mq_pid_" + roomCode, myPid);
-        lastScreen = null;
-        render();
-      }).catch(function(err){ fbError = err.message || String(err); render(); });
-  }
-
-  function claimPlayer(pid){
-    if(!fbdb || !roomCode) return;
-    fbdb.ref("rooms/" + roomCode + "/players/" + pid).update({ claimed: true })
+    if(!sb || !roomCode) return;
+    var pid = genId();
+    roomMerge(["players", pid], { name: name, joinedAt: Date.now(), totalScore: 0, answers: {} })
       .then(function(){
         myPid = pid;
         lsSet("mq_pid_" + roomCode, pid);
         lastScreen = null;
         render();
-      }).catch(function(err){ fbError = err.message || String(err); render(); });
+      }).catch(function(err){ sbError = err.message || String(err); render(); });
+  }
+
+  function claimPlayer(pid){
+    if(!sb || !roomCode) return;
+    roomMerge(["players", pid], { claimed: true })
+      .then(function(){
+        myPid = pid;
+        lsSet("mq_pid_" + roomCode, pid);
+        lastScreen = null;
+        render();
+      }).catch(function(err){ sbError = err.message || String(err); render(); });
   }
 
   function addManualPlayer(name){
-    if(!fbdb || !roomCode || !isHost) return;
-    fbdb.ref("rooms/" + roomCode + "/players").push({
-      name: name, joinedAt: firebase.database.ServerValue.TIMESTAMP,
+    if(!sb || !roomCode || !isHost) return;
+    var pid = genId();
+    roomMerge(["players", pid], {
+      name: name, joinedAt: Date.now(),
       totalScore: 0, answers: {}, manual: true, claimed: false
     });
   }
 
   function updateSettings(){
-    if(!fbdb || !roomCode || !isHost) return;
+    if(!sb || !roomCode || !isHost) return;
     var timeSel = document.getElementById("settingTime");
     var shuffleChk = document.getElementById("settingShuffle");
-    fbdb.ref("rooms/" + roomCode + "/settings").set({
+    roomSet(["settings"], {
       timeLimitSec: timeSel ? parseInt(timeSel.value,10) : settings().timeLimitSec,
       shuffle: shuffleChk ? !!shuffleChk.checked : settings().shuffle
     });
@@ -822,7 +847,7 @@
     var total = 0;
     Object.keys(answers).forEach(function(k){ total += answers[k].points || 0; });
 
-    fbdb.ref("rooms/" + roomCode + "/players/" + myPid).update({ answers: answers, totalScore: total });
+    roomMerge(["players", myPid], { answers: answers, totalScore: total });
 
     // optimistic local lock so the tap feels instant
     if(room && room.players && room.players[myPid]){
@@ -833,7 +858,7 @@
   }
 
   function startGame(){
-    if(!fbdb || !isHost) return;
+    if(!sb || !isHost) return;
     var s = settings();
     var order = QUESTIONS.map(function(_, i){ return i; });
     if(s.shuffle){
@@ -842,56 +867,49 @@
         var t = order[i]; order[i]=order[j]; order[j]=t;
       }
     }
-    fbdb.ref("rooms/" + roomCode + "/state").set({
-      status:"question", qIndex:0, order:order,
-      questionStartedAt: firebase.database.ServerValue.TIMESTAMP
+    serverNowMs().then(function(ts){
+      roomSet(["state"], { status:"question", qIndex:0, order:order, questionStartedAt: ts });
     });
   }
 
   function revealAnswer(){
-    if(!fbdb || !isHost) return;
-    fbdb.ref("rooms/" + roomCode + "/state").update({ status:"reveal" });
+    if(!sb || !isHost) return;
+    roomMerge(["state"], { status:"reveal" });
   }
 
   function nextQuestion(){
-    if(!fbdb || !isHost) return;
+    if(!sb || !isHost) return;
     var st = state();
     var next = (st.qIndex||0) + 1;
     if(next >= QUESTIONS.length){
-      fbdb.ref("rooms/" + roomCode + "/state").update({ status:"ended" });
+      roomMerge(["state"], { status:"ended" });
     } else {
-      fbdb.ref("rooms/" + roomCode + "/state").update({
-        status:"question", qIndex: next,
-        questionStartedAt: firebase.database.ServerValue.TIMESTAMP
+      serverNowMs().then(function(ts){
+        roomMerge(["state"], { status:"question", qIndex: next, questionStartedAt: ts });
       });
     }
   }
 
   function restartGame(){
-    if(!fbdb || !isHost) return;
-    var updates = {};
-    playerList().forEach(function(p){
-      updates["players/" + p.id + "/totalScore"] = 0;
-      updates["players/" + p.id + "/answers"] = {};
-    });
-    updates["state"] = { status:"lobby", qIndex:0, questionStartedAt:null, order:null };
-    fbdb.ref("rooms/" + roomCode).update(updates);
+    if(!sb || !isHost) return;
+    rpc("room_restart", { p_code: roomCode });
   }
 
   // ---------- boot ----------
   function boot(){
     if(!configured()){ render(); return; }
     try{
-      firebase.initializeApp(window.MQ_FIREBASE_CONFIG);
-      fbdb = firebase.database();
+      sb = window.supabase.createClient(window.MQ_SUPABASE_CONFIG.url, window.MQ_SUPABASE_CONFIG.anonKey);
     }catch(err){
-      fbError = err.message || String(err);
+      sbError = err.message || String(err);
       render(); return;
     }
 
-    fbdb.ref(".info/serverTimeOffset").on("value", function(snap){
-      serverOffset = snap.val() || 0;
-    });
+    var t0 = Date.now();
+    rpc("room_now_ms", {}).then(function(v){
+      var t1 = Date.now();
+      serverOffset = Number(v) - (t0 + t1) / 2;
+    }).catch(function(){ /* clock sync is a nicety; timers still work without it */ });
 
     var params = new URLSearchParams(location.search);
     var code = (params.get("room") || "").trim().toUpperCase();

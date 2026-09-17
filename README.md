@@ -14,28 +14,34 @@ link (or scan a QR code), type their name, and answer.
 
 ## Setup (about five minutes, once)
 
-The quiz needs a free Firebase Realtime Database to sync everyone's answers.
+The quiz needs a free Supabase project (a hosted Postgres database with realtime
+sync built in) to sync everyone's answers.
 
-### 1. Create a Firebase project
+### 1. Create a Supabase project
 
-1. Go to <https://console.firebase.google.com> → **Add project**
-2. Name it anything (e.g. `muscle-quiz`). You can skip Google Analytics.
+1. Go to <https://supabase.com/dashboard> → **New project**
+2. Name it anything (e.g. `muscle-quiz`), pick any region, and set a database
+   password (you won't need it again — the app never connects directly to Postgres).
 
-### 2. Turn on the Realtime Database
+### 2. Run the schema
 
-1. In the left sidebar: **Build → Realtime Database → Create Database**
-2. Pick any location, then choose **Start in test mode** → Enable
+1. In the left sidebar: **SQL Editor → New query**
+2. Open **`schema.sql`** in this repo, copy its entire contents, paste into the
+   editor, and click **Run**.
 
-> **What test mode means:** anyone who knows your database URL can read and write it,
-> and the rules auto-expire after 30 days. That's fine for a classroom activity. See
+This creates a `rooms` table (one row per game, holding all its live state) with
+row-level security policies that allow anyone to read and write it, and turns on
+Realtime sync for that table.
+
+> **What "anyone can read and write" means:** the same tradeoff as Firebase's test
+> mode — anyone with your project's URL and anon key can write to the `rooms`
+> table. That's fine for a classroom activity. See
 > [Locking it down](#locking-it-down-optional) below if you want it tighter.
 
-### 3. Register a web app and copy the config
+### 3. Copy the API credentials
 
-1. Click the gear icon → **Project settings**
-2. Scroll to **Your apps** → click the web icon `</>`
-3. Give it any nickname → **Register app**
-4. It shows you a `firebaseConfig` object. Copy those values into **`config.js`** in
+1. Left sidebar: **Project settings → API**
+2. Copy the **Project URL** and the **anon public** key into **`config.js`** in
    this repo, replacing each `PASTE_..._HERE` placeholder, and save.
 
 ### 4. Turn on GitHub Pages
@@ -90,28 +96,13 @@ Kahoot-style colors/shapes.
 
 ## Locking it down (optional)
 
-Test-mode rules expire after 30 days, and while they're live anyone with the
-database URL can write to it. For a one-off class session that's a non-issue. If
-you want to keep using it, replace the rules in **Realtime Database → Rules** with
-something scoped to this app:
-
-```json
-{
-  "rules": {
-    "rooms": {
-      "$room": {
-        ".read": true,
-        ".write": true,
-        ".validate": "$room.length <= 8"
-      }
-    }
-  }
-}
-```
-
-That still allows anonymous play (which is the point) but confines writes to the
-`rooms` subtree. Genuine tamper-proofing would need Firebase Auth and server-side
-score validation, which is well beyond what a classroom quiz warrants.
+The RLS policies from `schema.sql` allow anyone with your project's URL and anon
+key to read and write any room. For a one-off class session that's a non-issue. If
+you want to keep using the same project, you could tighten the insert/update
+policies — e.g. require `jsonb_array_length` / key checks so writes can only touch
+a room's `players` or `settings` paths, never arbitrary tables. Genuine
+tamper-proofing would need Supabase Auth and server-side score validation, which is
+well beyond what a classroom quiz warrants.
 
 ---
 
@@ -120,14 +111,16 @@ score validation, which is well beyond what a classroom quiz warrants.
 | File | What it is |
 | --- | --- |
 | `index.html` | The whole app — UI, game logic, styling |
-| `config.js` | Your Firebase credentials (the only file you must edit) |
+| `config.js` | Your Supabase credentials (the only file you must edit) |
+| `schema.sql` | Database schema — run once in the Supabase SQL Editor |
 | `questions.js` | The question bank |
 
-No build step, no dependencies to install. It's three static files.
+No build step, no dependencies to install. It's four static files.
 
 ---
 
 ## Cost
 
-Firebase's free Spark tier covers this comfortably — a classroom game moves a few
-kilobytes. You do not need to enter a credit card.
+Supabase's free tier covers this comfortably — a classroom game moves a few
+kilobytes and a couple thousand realtime messages at most. You do not need to
+enter a credit card.
