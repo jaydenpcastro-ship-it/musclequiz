@@ -30,7 +30,15 @@ drop policy if exists "anyone can update rooms" on rooms;
 create policy "anyone can update rooms" on rooms
   for update using (true);
 
-alter publication supabase_realtime add table rooms;
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'rooms'
+  ) then
+    alter publication supabase_realtime add table rooms;
+  end if;
+end $$;
 
 create or replace function room_now_ms()
 returns bigint
