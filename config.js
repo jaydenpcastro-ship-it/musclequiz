@@ -13,6 +13,6 @@
    --------------------------------------------------------------- */
 
 window.MQ_SUPABASE_CONFIG = {
-  url: "PASTE_PROJECT_URL_HERE",
-  anonKey: "PASTE_ANON_PUBLIC_KEY_HERE"
+  url: "https://fqpwcmqbckoenqjyvlph.supabase.co",
+  anonKey: "sb_publishable_uAhDuHv_JCPjMk_DJGAqsg_tralX2iA"
 };
