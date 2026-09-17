@@ -86,6 +86,8 @@ begin
     d := jsonb_set(d, array['players', k, 'totalScore'], '0'::jsonb, true);
     d := jsonb_set(d, array['players', k, 'answers'], '{}'::jsonb, true);
     d := jsonb_set(d, array['players', k, 'streak'], '0'::jsonb, true);
+    d := jsonb_set(d, array['players', k, 'wrongCount'], '0'::jsonb, true);
+    d := jsonb_set(d, array['players', k, 'coldStreak'], '0'::jsonb, true);
   end loop;
   d := jsonb_set(d, '{state}', '{"status":"lobby","qIndex":0,"questionStartedAt":null,"order":null}'::jsonb, true);
   update rooms set data = d, updated_at = now() where code = p_code;

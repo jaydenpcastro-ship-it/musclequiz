@@ -199,6 +199,16 @@
   @keyframes jsflash{0%{background:rgba(255,255,255,.92);}100%{background:rgba(0,0,0,.88);}}
   @keyframes jsshake{0%,100%{transform:translate(0,0) scale(1);}20%{transform:translate(-10px,6px) scale(1.04);}40%{transform:translate(9px,-7px) scale(.97);}60%{transform:translate(-8px,-5px) scale(1.03);}80%{transform:translate(7px,7px) scale(.98);}}
 
+  .lockin{
+    position:fixed;left:50%;top:max(16px, calc(env(safe-area-inset-top,0px) + 10px));
+    transform:translateX(-50%);z-index:9998;pointer-events:none;
+    background:var(--bad);color:#fff;font-family:'Fredoka';font-weight:800;
+    font-size:16px;letter-spacing:.05em;text-transform:uppercase;
+    padding:12px 22px;border-radius:999px;box-shadow:var(--shadow);
+    animation:lockinIn .3s ease-out;
+  }
+  @keyframes lockinIn{0%{transform:translateX(-50%) translateY(-30px);opacity:0;}100%{transform:translateX(-50%) translateY(0);opacity:1;}}
+
   .hostbar{
     position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;
     padding:12px max(16px, env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-right,0px));
@@ -248,7 +258,7 @@
   var roomCode = null, isHost = false, myPid = null;
   var roomChannel = null, roomLoaded = false, room = null;
   var lastScreen = null, tickHandle = null, hubTab = "invite", qrDrawn = null;
-  var autoRevealQi = null, jumpScareHandle = null;
+  var autoRevealQi = null, jumpScareHandle = null, lockInHandle = null;
 
   function now(){ return Date.now() + serverOffset; }
   function esc(s){ var d=document.createElement("div"); d.textContent = s==null?"":String(s); return d.innerHTML; }
@@ -784,6 +794,24 @@
     jumpScareHandle = setTimeout(close, 2000);
   }
 
+  // ---------- lock in notice ----------
+  // 3 wrong answers in a row (resets on any correct answer). Own device only.
+  function lockInNotice(){
+    var old = document.getElementById("lockin");
+    if(old && old.parentNode) old.parentNode.removeChild(old);
+    if(lockInHandle){ clearTimeout(lockInHandle); lockInHandle = null; }
+    var box = document.createElement("div");
+    box.id = "lockin";
+    box.className = "lockin";
+    box.setAttribute("role", "status");
+    box.textContent = "🔒 LOCK IN!";
+    document.body.appendChild(box);
+    lockInHandle = setTimeout(function(){
+      if(box.parentNode) box.parentNode.removeChild(box);
+      lockInHandle = null;
+    }, 1800);
+  }
+
   // ---------- actions ----------
   function genCode(){
     var s = "";
@@ -855,7 +883,7 @@
   function joinAsPlayer(name){
     if(!sb || !roomCode) return;
     var pid = genId();
-    roomMerge(["players", pid], { name: name, joinedAt: Date.now(), totalScore: 0, answers: {}, streak: 0, wrongCount: 0 })
+    roomMerge(["players", pid], { name: name, joinedAt: Date.now(), totalScore: 0, answers: {}, streak: 0, wrongCount: 0, coldStreak: 0 })
       .then(function(){
         myPid = pid;
         lsSet("mq_pid_" + roomCode, pid);
@@ -880,7 +908,7 @@
     var pid = genId();
     roomMerge(["players", pid], {
       name: name, joinedAt: Date.now(),
-      totalScore: 0, answers: {}, streak: 0, wrongCount: 0, manual: true, claimed: false
+      totalScore: 0, answers: {}, streak: 0, wrongCount: 0, coldStreak: 0, manual: true, claimed: false
     });
   }
 
@@ -908,6 +936,7 @@
     var newStreak = correct ? prevStreak + 1 : 0;
     var hotStreak = correct && prevStreak >= 1; // 2nd correct in a row and up
     var newWrong = correct ? (mp.wrongCount||0) : (mp.wrongCount||0) + 1;
+    var newColdStreak = correct ? 0 : (mp.coldStreak||0) + 1; // consecutive wrong, resets on a correct answer
     var points = correct ? Math.round(500 + 500 * (1 - timeMs/limit)) : 0;
     if(hotStreak) points = Math.round(points * 1.2);
 
@@ -916,7 +945,7 @@
     var total = 0;
     Object.keys(answers).forEach(function(k){ total += answers[k].points || 0; });
 
-    roomMerge(["players", myPid], { answers: answers, totalScore: total, streak: newStreak, wrongCount: newWrong });
+    roomMerge(["players", myPid], { answers: answers, totalScore: total, streak: newStreak, wrongCount: newWrong, coldStreak: newColdStreak });
 
     // optimistic local lock so the tap feels instant
     if(room && room.players && room.players[myPid]){
@@ -924,9 +953,11 @@
       room.players[myPid].totalScore = total;
       room.players[myPid].streak = newStreak;
       room.players[myPid].wrongCount = newWrong;
+      room.players[myPid].coldStreak = newColdStreak;
     }
     lastScreen = null; render();
     if(!correct && newWrong > 0 && newWrong % 5 === 0) jumpScare(newWrong);
+    else if(!correct && newColdStreak > 0 && newColdStreak % 3 === 0) lockInNotice();
   }
 
   function startGame(){
