@@ -119,6 +119,11 @@
   .player-row + .player-row{margin-top:8px;}
   .avatar-dot{width:9px;height:9px;border-radius:50%;background:var(--good);flex:none;margin-right:9px;}
   .player-name{display:flex;align-items:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .kickbtn{
+    background:transparent;border:1.5px solid var(--border);color:var(--bad);
+    font-size:11px;font-weight:700;padding:5px 10px;border-radius:8px;flex:none;
+  }
+  .kickbtn:hover{border-color:var(--bad);}
   .chiprow{display:flex;flex-wrap:wrap;gap:8px;}
   .chip{
     padding:10px 14px;border-radius:999px;background:var(--surface-2);
@@ -209,6 +214,24 @@
   }
   @keyframes lockinIn{0%{transform:translateX(-50%) translateY(-30px);opacity:0;}100%{transform:translateX(-50%) translateY(0);opacity:1;}}
 
+  .qrscan{
+    position:fixed;inset:0;z-index:9999;background:#000;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  }
+  .qrscan video{
+    width:min(92vw,420px);aspect-ratio:1/1;object-fit:cover;border-radius:16px;background:#111;
+  }
+  .qrscan-frame{
+    position:absolute;width:min(60vw,260px);aspect-ratio:1/1;
+    border:3px solid var(--good);border-radius:18px;pointer-events:none;
+  }
+  .qrscan-msg{color:#fff;font-weight:600;font-size:14px;text-align:center;padding:0 24px;max-width:340px;}
+  .qrscan-close{
+    position:absolute;top:max(16px, env(safe-area-inset-top,0px));right:max(16px, env(safe-area-inset-right,0px));
+    width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;
+    font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;
+  }
+
   .hostbar{
     position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;
     padding:12px max(16px, env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-right,0px));
@@ -236,6 +259,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script src="config.js"></script>
 <script src="questions.js"></script>
 <script>
@@ -259,6 +283,7 @@
   var roomChannel = null, roomLoaded = false, room = null;
   var lastScreen = null, tickHandle = null, hubTab = "invite", qrDrawn = null;
   var autoRevealQi = null, jumpScareHandle = null, lockInHandle = null;
+  var qrStream = null, qrRAF = null;
 
   function now(){ return Date.now() + serverOffset; }
   function esc(s){ var d=document.createElement("div"); d.textContent = s==null?"":String(s); return d.innerHTML; }
@@ -414,6 +439,7 @@
         '<input type="text" id="codeInput" maxlength="4" placeholder="CODE" autocomplete="off" autocapitalize="characters" spellcheck="false" required>' +
         '<button class="btn secondary" type="submit">Join game</button>' +
       '</form>' +
+      '<button type="button" class="btn secondary" id="btnScanQr" style="margin-top:10px;">📷 Scan QR code</button>' +
     '</div>';
   }
 
@@ -453,7 +479,10 @@
     var rows = list.length ? list.map(function(p){
       return '<div class="player-row"><span class="player-name"><span class="avatar-dot" style="background:' +
         (p.manual && !p.claimed ? "var(--text-dim)" : "var(--good)") + '"></span>' + esc(p.name) + '</span>' +
-        (p.manual && !p.claimed ? '<span class="muted">added by you</span>' : '') + '</div>';
+        '<span style="display:flex;align-items:center;gap:8px;">' +
+        (p.manual && !p.claimed ? '<span class="muted">added by you</span>' : '') +
+        '<button type="button" class="kickbtn" data-kick="' + esc(p.id) + '" aria-label="Remove ' + esc(p.name) + '">Kick</button>' +
+        '</span></div>';
     }).join("") : '<div class="waiting">Waiting for players to join…</div>';
 
     var tabs = '<div class="hubtabs">' +
@@ -668,6 +697,9 @@
       enterRoom(v, false);
     });
 
+    var scanBtn = byId("btnScanQr");
+    if(scanBtn) scanBtn.addEventListener("click", startQrScan);
+
     var joinForm = byId("joinForm");
     if(joinForm) joinForm.addEventListener("submit", function(e){
       e.preventDefault();
@@ -678,6 +710,15 @@
 
     el.querySelectorAll("[data-claim]").forEach(function(b){
       b.addEventListener("click", function(){ claimPlayer(b.getAttribute("data-claim")); });
+    });
+
+    el.querySelectorAll("[data-kick]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var pid = b.getAttribute("data-kick");
+        var p = room && room.players && room.players[pid];
+        var name = p ? p.name : "this player";
+        if(confirm("Remove " + name + " from the game?")) kickPlayer(pid);
+      });
     });
 
     el.querySelectorAll(".ans[data-idx]").forEach(function(b){
@@ -724,6 +765,76 @@
       new window.QRCode(box, { text: joinUrl(), width: 168, height: 168, correctLevel: window.QRCode.CorrectLevel.M });
       qrDrawn = roomCode;
     }catch(e){ /* QR is a nicety; the link above still works */ }
+  }
+
+  // ---------- QR scanner (join by camera) ----------
+  function stopQrScan(){
+    if(qrRAF){ cancelAnimationFrame(qrRAF); qrRAF = null; }
+    if(qrStream){ qrStream.getTracks().forEach(function(t){ t.stop(); }); qrStream = null; }
+    var ov = document.getElementById("qrscan");
+    if(ov && ov.parentNode) ov.parentNode.removeChild(ov);
+  }
+
+  function handleScannedText(text){
+    var code = null;
+    try{
+      var u = new URL(text, location.href);
+      code = (u.searchParams.get("room") || "").trim().toUpperCase();
+    }catch(e){ /* not a URL; fall through to the raw-code match below */ }
+    if(!code){
+      var m = /\b([A-HJ-NP-Z2-9]{4})\b/i.exec(text);
+      if(m) code = m[1].toUpperCase();
+    }
+    stopQrScan();
+    if(code && code.length >= 3){ enterRoom(code, false); }
+    else { alert("That QR code doesn't look like a game code."); }
+  }
+
+  function startQrScan(){
+    if(typeof window.jsQR !== "function"){
+      alert("QR scanning isn't available right now. Enter the code instead.");
+      return;
+    }
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      alert("Camera scanning isn't supported on this browser. Enter the code instead.");
+      return;
+    }
+    var ov = document.createElement("div");
+    ov.id = "qrscan";
+    ov.className = "qrscan";
+    ov.innerHTML =
+      '<button type="button" class="qrscan-close" aria-label="Close scanner">&times;</button>' +
+      '<video playsinline muted></video>' +
+      '<div class="qrscan-frame"></div>' +
+      '<div class="qrscan-msg">Point your camera at the host\'s QR code</div>';
+    document.body.appendChild(ov);
+    ov.querySelector(".qrscan-close").addEventListener("click", stopQrScan);
+
+    var video = ov.querySelector("video");
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream){
+      qrStream = stream;
+      video.srcObject = stream;
+      video.play();
+      var loop = function(){
+        if(!qrStream) return;
+        if(video.readyState === video.HAVE_ENOUGH_DATA){
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          var img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          var code = window.jsQR(img.data, img.width, img.height);
+          if(code && code.data){ handleScannedText(code.data); return; }
+        }
+        qrRAF = requestAnimationFrame(loop);
+      };
+      qrRAF = requestAnimationFrame(loop);
+    }).catch(function(err){
+      var msg = ov.querySelector(".qrscan-msg");
+      if(msg) msg.textContent = "Couldn't access the camera (" + (err.message || err) + "). Enter the code instead.";
+    });
   }
 
   // ---------- timer ----------
@@ -832,7 +943,15 @@
   }
   function roomSet(path, value){ return rpc("room_set", { p_code: roomCode, p_path: path, p_value: value }); }
   function roomMerge(path, patch){ return rpc("room_merge", { p_code: roomCode, p_path: path, p_patch: patch }); }
+  function roomRemove(path){ return rpc("room_remove_path", { p_code: roomCode, p_path: path }); }
   function serverNowMs(){ return rpc("room_now_ms", {}).then(function(v){ return Number(v); }); }
+
+  function kickPlayer(pid){
+    if(!sb || !roomCode || !isHost) return;
+    roomRemove(["players", pid]);
+    if(room && room.players) delete room.players[pid]; // optimistic
+    lastScreen = null; render();
+  }
 
   function createRoom(){
     if(!sb) return;

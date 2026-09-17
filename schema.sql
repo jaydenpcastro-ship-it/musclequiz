@@ -72,6 +72,16 @@ as $$
   where code = p_code;
 $$;
 
+create or replace function room_remove_path(p_code text, p_path text[])
+returns void
+language sql
+as $$
+  update rooms
+  set data = data #- p_path,
+      updated_at = now()
+  where code = p_code;
+$$;
+
 create or replace function room_restart(p_code text)
 returns void
 language plpgsql
@@ -98,4 +108,5 @@ grant execute on function room_now_ms() to anon, authenticated;
 grant execute on function room_create(text, jsonb) to anon, authenticated;
 grant execute on function room_set(text, text[], jsonb) to anon, authenticated;
 grant execute on function room_merge(text, text[], jsonb) to anon, authenticated;
+grant execute on function room_remove_path(text, text[]) to anon, authenticated;
 grant execute on function room_restart(text) to anon, authenticated;
