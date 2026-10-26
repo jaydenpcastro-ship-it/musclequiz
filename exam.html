@@ -89,6 +89,10 @@
   .bar .grow{flex:1 1 auto}
   .timer{font-family:var(--font-display);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
   .timer.low{color:var(--bad)}
+  .paused{min-height:100%;display:grid;place-items:center;padding-block:48px}
+  .pause-card{width:100%;max-width:440px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;display:grid;gap:18px;text-align:center}
+  .pause-card .timer{font-size:44px;line-height:1}
+  .pause-card .row{justify-content:center}
   .progress{height:4px;background:var(--surface-2)}
   .progress i{display:block;height:100%;background:var(--accent);transition:width .2s}
   .nav{padding-block:14px;border-bottom:1px solid var(--border);background:var(--surface)}
@@ -232,7 +236,7 @@
   function startTimer(){
     stopTimer();
     tick = setInterval(function(){
-      if(!S || S.submitted || S.view === "start") return;
+      if(!S || S.submitted || S.paused || S.view === "start") return;
       if(document.hidden) return;
       S.elapsed += 1;
       if(S.limit){ S.remaining -= 1; if(S.remaining <= 0){ S.remaining = 0; S.timedOut = true; submit(); return; } }
@@ -247,6 +251,7 @@
   function render(){
     if(!S || S.view === "start") return renderStart();
     if(S.submitted) return renderResults();
+    if(S.paused) return renderPaused();
     if(S.view === "check") return renderCheck();
     return renderExam();
   }
@@ -286,10 +291,11 @@
         '</section>' +
         '<section><h2 style="font-size:20px;margin-bottom:10px">How it works</h2><ul class="rules dim">' +
           '<li>Every wrong choice contains at least one true statement, such as the right diagnosis with the wrong mechanism. Check every part of a choice before you pick it.</li>' +
+          '<li>Pause any time: the clock stops and the question is hidden until you resume.</li>' +
           '<li>Flag questions to come back to. The navigator shows what is answered and flagged.</li>' +
           '<li>Answers and explanations appear only after you submit. Each choice gets its own rationale, and each question ends with the key concept.</li>' +
           '<li>Progress saves in this browser, so you can close the tab and resume.</li>' +
-          '<li>Keyboard: <span class="kbd"><kbd>A</kbd>–<kbd>D</kbd> or <kbd>1</kbd>–<kbd>4</kbd> to answer, <kbd>←</kbd> <kbd>→</kbd> to move, <kbd>F</kbd> to flag</span>.</li>' +
+          '<li>Keyboard: <span class="kbd"><kbd>A</kbd>–<kbd>D</kbd> or <kbd>1</kbd>–<kbd>4</kbd> to answer, <kbd>←</kbd> <kbd>→</kbd> to move, <kbd>F</kbd> to flag, <kbd>P</kbd> to pause</span>.</li>' +
         '</ul></section>' +
       '</main>';
     app.querySelectorAll('input[name="section"],input[name="timer"]').forEach(function(el){
@@ -299,7 +305,7 @@
     document.getElementById("shuffleO").addEventListener("change", function(e){ ui.setup.shuffleO = e.target.checked; });
     document.getElementById("begin").addEventListener("click", startFromSetup);
     var b;
-    if((b = document.getElementById("resume"))) b.addEventListener("click", function(){ S = saved; S.view = "exam"; render(); });
+    if((b = document.getElementById("resume"))) b.addEventListener("click", function(){ S = saved; S.view = "exam"; S.paused = false; save(); render(); });
     if((b = document.getElementById("discard"))) b.addEventListener("click", function(){ clear(); S = null; renderStart(); });
     if((b = document.getElementById("viewlast"))) b.addEventListener("click", function(){ S = saved; S.view = "results"; render(); });
   }
@@ -311,6 +317,7 @@
       '<span class="dim num hide-sm">' + a + ' answered · ' + flaggedCount() + ' flagged</span>' +
       '<span class="grow"></span>' +
       '<span class="timer num' + (S.limit && S.remaining <= 300 ? ' low' : '') + '" id="timer" title="' + (S.limit ? 'Time remaining' : 'Time elapsed') + '">' + (S.limit ? fmt(S.remaining) : fmt(S.elapsed)) + '</span>' +
+      '<button class="btn ghost" id="pause" title="Pause (P)">Pause</button>' +
       '<button class="btn ghost" id="navToggle" aria-expanded="' + ui.navOpen + '">Questions</button>' +
       '<button class="btn primary" id="toCheck">Review &amp; submit</button>' +
       '</div><div class="progress" aria-hidden="true"><i style="width:' + pct(a,n) + '%"></i></div></div>';
@@ -323,9 +330,30 @@
     }).join("") + '</div><div class="legend"><span><i style="background:var(--surface-2)"></i>Answered</span><span><i style="background:var(--bg)"></i>Unanswered</span><span><i style="background:var(--flag);border-color:var(--flag);border-radius:50%"></i>Flagged</span></div></div></div>';
   }
   function bindBar(){
+    document.getElementById("pause").addEventListener("click", function(){ setPaused(true); });
     document.getElementById("navToggle").addEventListener("click", function(){ ui.navOpen = !ui.navOpen; render(); });
     document.getElementById("toCheck").addEventListener("click", function(){ S.view = "check"; save(); render(); window.scrollTo(0,0); });
     app.querySelectorAll("[data-go]").forEach(function(b){ b.addEventListener("click", function(){ S.cur = +b.dataset.go; S.view = "exam"; save(); render(); }); });
+  }
+
+  function setPaused(on){
+    S.paused = on; save(); render(); window.scrollTo(0,0);
+    var f = document.getElementById(on ? "unpause" : "pause"); if(f) f.focus();
+  }
+  function renderPaused(){
+    stopTimer();
+    app.innerHTML =
+      '<main class="wrap paused"><div class="pause-card" role="dialog" aria-labelledby="pausedTitle">' +
+        '<div class="eyebrow">' + esc(S.label) + '</div>' +
+        '<h1 id="pausedTitle" style="font-size:28px">Exam paused</h1>' +
+        '<div><div class="timer num">' + (S.limit ? fmt(S.remaining) : fmt(S.elapsed)) + '</div>' +
+          '<div class="dim" style="margin-top:6px">' + (S.limit ? 'remaining · the clock is stopped' : 'elapsed · the clock is stopped') + '</div></div>' +
+        '<div class="dim num">Question ' + (S.cur+1) + ' of ' + S.ids.length + ' · ' + answeredCount() + ' answered · ' + flaggedCount() + ' flagged</div>' +
+        '<div class="dim" style="font-size:13px">The question is hidden while paused. Your progress is saved, so you can also close this tab and resume later.</div>' +
+        '<div class="row"><button class="btn primary" id="unpause">Resume exam</button></div>' +
+        '<div class="kbd">Press <kbd>P</kbd> to resume</div>' +
+      '</div></main>';
+    document.getElementById("unpause").addEventListener("click", function(){ setPaused(false); });
   }
 
   function renderExam(){
@@ -344,7 +372,7 @@
           '<button class="btn' + (S.flags[id] ? ' flagged' : '') + '" id="flag" aria-pressed="' + !!S.flags[id] + '">' + (S.flags[id] ? 'Flagged' : 'Flag for review') + '</button>' +
           (S.cur === S.ids.length - 1 ? '<button class="btn primary" id="next">Review &amp; submit</button>' : '<button class="btn primary" id="next">Next →</button>') +
         '</div>' +
-        '<div class="kbd"><kbd>A</kbd>–<kbd>D</kbd> answer · <kbd>←</kbd><kbd>→</kbd> move · <kbd>F</kbd> flag</div>' +
+        '<div class="kbd"><kbd>A</kbd>–<kbd>D</kbd> answer · <kbd>←</kbd><kbd>→</kbd> move · <kbd>F</kbd> flag · <kbd>P</kbd> pause</div>' +
       '</main>';
     bindBar();
     app.querySelectorAll('input[name="ans"]').forEach(function(r){
@@ -463,7 +491,10 @@
 
   /* ---------- keyboard ---------- */
   document.addEventListener("keydown", function(e){
-    if(!S || S.submitted || S.view !== "exam" || e.metaKey || e.ctrlKey || e.altKey) return;
+    if(!S || S.submitted || S.view === "start" || e.metaKey || e.ctrlKey || e.altKey) return;
+    if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) && e.target.type !== "radio") return;
+    if(e.key.toLowerCase() === "p"){ e.preventDefault(); setPaused(!S.paused); return; }
+    if(S.paused || S.view !== "exam") return;
     var k = e.key.toLowerCase(), idx = "abcd".indexOf(k); if(idx < 0) idx = "1234".indexOf(k);
     if(idx >= 0){ e.preventDefault(); choose(S.perm[S.ids[S.cur]][idx], "ans-" + idx); return; }
     if(e.key === "ArrowRight"){ e.preventDefault(); go(1); }

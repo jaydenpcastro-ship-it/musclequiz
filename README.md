@@ -85,7 +85,7 @@ lecture decks. No Supabase or setup needed. Open `exam.html` (on GitHub Pages:
 
 - NPTE format: four choices, one best answer, optional NPTE pacing (72 s per question)
 - Every wrong choice contains at least one true component, so partial knowledge isn't enough
-- Flag questions, jump around with the navigator, and resume later (progress saves in the browser)
+- Pause any time (clock stops, question hidden), flag questions, jump around with the navigator, and resume later (progress saves in the browser)
 - After submitting: score by joint, weakest topics, and an explanation for **every** answer
   choice plus a key-concept summary for each question
 - Retake everything or only the missed questions, with answers reshuffled
