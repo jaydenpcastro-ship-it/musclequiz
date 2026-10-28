@@ -1,10 +1,12 @@
 # Muscle Physio Live
 
-A live, Kahoot-style multiplayer quiz on skeletal muscle physiology and biomechanics.
+A live, Kahoot-style multiplayer quiz on skeletal muscle physiology and lower-extremity
+biomechanics.
 Students join from their own phones — **no account, no sign-in, no app**. They open a
 link (or scan a QR code), type their name, and answer.
 
-- 10 multiple-choice questions at moderate difficulty
+- 68 multiple-choice questions: 10 on muscle physiology, plus 58 Exam 2 review
+  questions (knee, ankle & foot, hip, gait) written in the style of the review sheet
 - 20-second timer per question (configurable, 10–60s)
 - Speed-weighted scoring: faster correct answers earn more
 - Live leaderboard, final podium, automatic winner (handles ties)
