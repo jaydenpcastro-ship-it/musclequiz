@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PT 611 Biomechanics Exam</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: one centered exam column (max ~760px); a sticky status bar on top; the question
+     navigator folds open under the bar. Palette follows the Muscle Physio Live app (index.html). */
+  :root{
+    --bg:#12141c; --surface:#1c2030; --surface-2:#252b40; --border:#333a54;
+    --text:#f3f5fb; --text-dim:#9aa3c0; --accent:#8c6dfb; --accent-soft:rgba(140,109,251,.16); --accent-text:#ffffff;
+    --good:#2ec4b6; --good-soft:rgba(46,196,182,.14); --bad:#ef476f; --bad-soft:rgba(239,71,111,.13);
+    --flag:#ffb703; --flag-soft:rgba(255,183,3,.16);
+    --font-display:'Fredoka',system-ui,-apple-system,sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --radius:12px;
+    color-scheme:dark;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f7f5ff; --surface:#ffffff; --surface-2:#f0ecff; --border:#e1dbf7;
+      --text:#211c3d; --text-dim:#5f5885; --accent:#6d3df5; --accent-soft:rgba(109,61,245,.10); --accent-text:#ffffff;
+      --good:#0b8a7e; --good-soft:rgba(15,156,143,.11); --bad:#c92a50; --bad-soft:rgba(214,52,89,.09);
+      --flag:#b97800; --flag-soft:rgba(224,160,0,.14);
+      color-scheme:light;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f7f5ff; --surface:#ffffff; --surface-2:#f0ecff; --border:#e1dbf7;
+    --text:#211c3d; --text-dim:#5f5885; --accent:#6d3df5; --accent-soft:rgba(109,61,245,.10); --accent-text:#ffffff;
+    --good:#0b8a7e; --good-soft:rgba(15,156,143,.11); --bad:#c92a50; --bad-soft:rgba(214,52,89,.09);
+    --flag:#b97800; --flag-soft:rgba(224,160,0,.14);
+    color-scheme:light;
+  }
+
+  *{box-sizing:border-box}
+  html,body{background:var(--bg);color:var(--text)}
+  body{margin:0;font-family:var(--font-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.2;text-wrap:balance;margin:0}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .dim{color:var(--text-dim)}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:10px;
+       border:1px solid var(--border);background:var(--surface-2);cursor:pointer;font-weight:600;font-size:14px}
+  .btn:hover{border-color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent}
+  .btn.danger{color:var(--bad)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .btn.flagged{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+  /* ---------- start screen ---------- */
+  .start{padding-block:40px 64px;display:grid;gap:28px}
+  .start h1{font-size:clamp(28px,6vw,40px);font-weight:700}
+  .lede{font-size:16px;max-width:62ch;margin:10px 0 0}
+  .blueprint{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .bp{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+  .bp b{display:block;font-family:var(--font-display);font-size:28px;font-weight:600}
+  .rules{margin:0;padding-left:20px;display:grid;gap:6px;max-width:66ch}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:grid;gap:18px}
+  fieldset{border:0;margin:0;padding:0;display:grid;gap:8px;min-width:0}
+  legend{font-weight:600;margin-bottom:6px;padding:0}
+  .seg{display:flex;flex-wrap:wrap;gap:8px}
+  .seg label{position:relative}
+  .seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+  .seg input + span{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface-2);font-size:14px;font-weight:500}
+  .seg input:checked + span{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}
+  .seg input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+  .check input{width:18px;height:18px;margin-top:2px;accent-color:var(--accent)}
+  .resume{border:1px solid var(--accent);background:var(--accent-soft);border-radius:var(--radius);padding:14px 16px;display:grid;gap:10px}
+
+  /* ---------- exam ---------- */
+  .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--border)}
+  .bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-block:10px}
+  .bar .pos{font-weight:600}
+  .bar .grow{flex:1 1 auto}
+  .timer{font-family:var(--font-display);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+  .timer.low{color:var(--bad)}
+  .paused{min-height:100%;display:grid;place-items:center;padding-block:48px}
+  .pause-card{width:100%;max-width:440px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;display:grid;gap:18px;text-align:center}
+  .pause-card .timer{font-size:44px;line-height:1}
+  .pause-card .row{justify-content:center}
+  .progress{height:4px;background:var(--surface-2)}
+  .progress i{display:block;height:100%;background:var(--accent);transition:width .2s}
+  .nav{padding-block:14px;border-bottom:1px solid var(--border);background:var(--surface)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+  .grid button{height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;position:relative}
+  .grid button.ans{background:var(--surface-2);border-color:var(--text-dim)}
+  .grid button.cur{outline:2px solid var(--accent);outline-offset:1px}
+  .grid button.flg::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--flag)}
+  .grid button.ok{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+  .grid button.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--text-dim);margin-top:10px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid var(--text-dim)}
+
+  .qwrap{padding-block:26px 48px;display:grid;gap:18px}
+  .qmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .chip{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);font-size:12px;font-weight:600;letter-spacing:.02em}
+  .chip.flag{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+  .stem{font-size:17px;line-height:1.6;margin:0;max-width:68ch}
+  .opts{display:grid;gap:10px}
+  .opt{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;align-items:start;padding:14px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);cursor:pointer;position:relative}
+  .opt:hover{border-color:var(--text-dim)}
+  .opt input{position:absolute;opacity:0;width:1px;height:1px}
+  .opt .let{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--border);background:var(--surface-2);font-family:var(--font-display);font-weight:600}
+  .opt .txt{padding-top:4px}
+  .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .opt.sel .let{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+  .opt:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+  .qnav{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+  .kbd{font-size:12px;color:var(--text-dim)}
+  .kbd kbd{font-family:inherit;font-size:11px;padding:1px 6px;border-radius:5px;border:1px solid var(--border);background:var(--surface-2)}
+
+  /* ---------- submit check ---------- */
+  .check-screen{padding-block:36px 64px;display:grid;gap:20px}
+  .tally{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .tally div{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+  .tally b{display:block;font-family:var(--font-display);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+  .jumps{display:flex;flex-wrap:wrap;gap:6px}
+  .jumps button{min-width:40px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);cursor:pointer;font-weight:600;font-size:13px}
+  .notice{padding:12px 14px;border-radius:10px;background:var(--bad-soft);border:1px solid var(--bad);font-size:14px}
+
+  /* ---------- results ---------- */
+  .results{padding-block:36px 64px;display:grid;gap:26px}
+  .score{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 24px}
+  .score .big{font-family:var(--font-display);font-size:clamp(56px,14vw,84px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+  .breakdown{display:grid;gap:12px}
+  .brow{display:grid;grid-template-columns:110px minmax(0,1fr) 92px;gap:12px;align-items:center;font-size:14px}
+  .meter{height:10px;border-radius:999px;background:var(--surface-2);overflow:hidden;position:relative}
+  .meter i{display:block;height:100%;border-radius:999px}
+  .meter::after{content:"";position:absolute;top:-3px;bottom:-3px;left:70%;width:2px;background:var(--text-dim);opacity:.6}
+  .weak{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+  .weak li{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--border);font-size:14px}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .review{display:grid;gap:16px}
+  .rq{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:grid;gap:14px;border-left:4px solid var(--border)}
+  .rq.ok{border-left-color:var(--good)}
+  .rq.no{border-left-color:var(--bad)}
+  .rq .stem{font-size:16px}
+  .ropt{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg)}
+  .ropt .let{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--border);font-family:var(--font-display);font-weight:600;font-size:14px}
+  .ropt.key{border-color:var(--good);background:var(--good-soft)}
+  .ropt.key .let{background:var(--good);border-color:var(--good);color:var(--bg)}
+  .ropt.picked-wrong{border-color:var(--bad);background:var(--bad-soft)}
+  .ropt.picked-wrong .let{background:var(--bad);border-color:var(--bad);color:var(--bg)}
+  .ropt .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+  .ropt.key .tag{color:var(--good)}
+  .ropt.picked-wrong .tag{color:var(--bad)}
+  .ropt .why{font-size:13.5px;color:var(--text-dim);margin-top:6px}
+  .concept{padding:14px 16px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent);font-size:14.5px}
+  .concept b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;color:var(--accent)}
+  .empty{padding:24px;text-align:center;border:1px dashed var(--border);border-radius:var(--radius)}
+
+  @media (max-width:560px){
+    .blueprint,.tally{grid-template-columns:1fr 1fr 1fr}
+    .bp b,.tally b{font-size:22px}
+    .brow{grid-template-columns:84px minmax(0,1fr) 74px;font-size:13px}
+    .stem{font-size:16px}
+    .bar .hide-sm{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script src="exam-questions.js"></script>
+<script>
+(function(){
+  "use strict";
+  var BANK = window.NPTE_EXAM || [];
+  var BY_ID = {}; BANK.forEach(function(q){ BY_ID[q.id] = q; });
+  var JOINTS = ["Hip","Knee","Ankle & Foot"];
+  var SEC_PER_Q = 72;            // NPTE pace: 5 hours for 250 items
+  var TARGET = 70;               // practice target, shown as a marker on the bars
+  var KEY = "pt611-biomech-exam-v1";
+  var LETTERS = "ABCD";
+  var app = document.getElementById("app");
+  var S = null;                  // current attempt
+  var ui = { navOpen:false, filter:"all", joint:"all", setup:{ section:"all", timer:"npte", shuffleQ:true, shuffleO:true } };
+  var tick = null;
+
+  /* ---------- storage (best effort) ---------- */
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+  function load(){ try{ var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; }catch(e){ return null; } }
+  function clear(){ try{ localStorage.removeItem(KEY); }catch(e){} }
+
+  /* ---------- helpers ---------- */
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function shuffle(a){ a = a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function fmt(sec){ sec=Math.max(0,Math.round(sec)); var h=Math.floor(sec/3600), m=Math.floor(sec%3600/60), s=sec%60;
+    return (h? h+":"+String(m).padStart(2,"0") : String(m)) + ":" + String(s).padStart(2,"0"); }
+  function pct(a,b){ return b ? Math.round(100*a/b) : 0; }
+  function answeredCount(){ return S.ids.filter(function(id){ return S.answers[id] != null; }).length; }
+  function flaggedCount(){ return S.ids.filter(function(id){ return S.flags[id]; }).length; }
+  function isRight(id){ return S.answers[id] != null && S.answers[id] === BY_ID[id].answer; }
+
+  /* ---------- attempt lifecycle ---------- */
+  function newAttempt(ids, opts){
+    var order = opts.shuffleQ ? shuffle(ids) : ids.slice();
+    if(!opts.shuffleQ){ // keep joints grouped in bank order
+      order.sort(function(a,b){ return a-b; });
+    }
+    var perm = {};
+    order.forEach(function(id){ perm[id] = opts.shuffleO ? shuffle([0,1,2,3]) : [0,1,2,3]; });
+    var limit = opts.timer === "npte" ? order.length * SEC_PER_Q : 0;
+    S = { v:1, ids:order, perm:perm, answers:{}, flags:{}, cur:0, view:"exam",
+          limit:limit, remaining:limit, elapsed:0, submitted:false, label:opts.label || "Full exam", startedAt:Date.now() };
+    ui.navOpen = false; save(); render();
+  }
+  function startFromSetup(){
+    var s = ui.setup;
+    var ids = BANK.filter(function(q){ return s.section === "all" || q.joint === s.section; }).map(function(q){ return q.id; });
+    newAttempt(ids, { shuffleQ:s.shuffleQ, shuffleO:s.shuffleO, timer:s.timer, label: s.section === "all" ? "Full exam" : s.section + " section" });
+  }
+  function submit(){
+    S.submitted = true; S.view = "results"; S.finishedAt = Date.now();
+    ui.filter = "all"; ui.joint = "all"; stopTimer(); save(); render(); window.scrollTo(0,0);
+  }
+
+  /* ---------- timer ---------- */
+  function startTimer(){
+    stopTimer();
+    tick = setInterval(function(){
+      if(!S || S.submitted || S.paused || S.view === "start") return;
+      if(document.hidden) return;
+      S.elapsed += 1;
+      if(S.limit){ S.remaining -= 1; if(S.remaining <= 0){ S.remaining = 0; S.timedOut = true; submit(); return; } }
+      var t = document.getElementById("timer");
+      if(t){ t.textContent = S.limit ? fmt(S.remaining) : fmt(S.elapsed); t.classList.toggle("low", S.limit && S.remaining <= 300); }
+      if(S.elapsed % 5 === 0) save();
+    }, 1000);
+  }
+  function stopTimer(){ if(tick){ clearInterval(tick); tick = null; } }
+
+  /* ---------- views ---------- */
+  function render(){
+    if(!S || S.view === "start") return renderStart();
+    if(S.submitted) return renderResults();
+    if(S.paused) return renderPaused();
+    if(S.view === "check") return renderCheck();
+    return renderExam();
+  }
+
+  function renderStart(){
+    stopTimer();
+    var saved = load();
+    var counts = {}; JOINTS.forEach(function(j){ counts[j] = BANK.filter(function(q){ return q.joint === j; }).length; });
+    var s = ui.setup;
+    var nSel = s.section === "all" ? BANK.length : counts[s.section];
+    var resume = "";
+    if(saved && !saved.submitted && saved.ids){
+      var a = saved.ids.filter(function(id){ return saved.answers[id] != null; }).length;
+      resume = '<div class="resume"><div><b>Exam in progress</b><div class="dim">' + esc(saved.label) + ' · question ' + (saved.cur+1) + ' of ' + saved.ids.length + ' · ' + a + ' answered' + (saved.limit ? ' · ' + fmt(saved.remaining) + ' left' : '') + '</div></div>' +
+        '<div class="row"><button class="btn primary" id="resume">Resume exam</button><button class="btn ghost danger" id="discard">Discard it</button></div></div>';
+    } else if(saved && saved.submitted && saved.ids){
+      var r = saved.ids.filter(function(id){ return saved.answers[id] != null && saved.answers[id] === BY_ID[id].answer; }).length;
+      resume = '<div class="resume"><div><b>Last result: ' + pct(r, saved.ids.length) + '%</b><div class="dim">' + esc(saved.label) + ' · ' + r + ' of ' + saved.ids.length + ' correct</div></div>' +
+        '<div class="row"><button class="btn" id="viewlast">Review answers and explanations</button></div></div>';
+    }
+    function seg(name, val, label){ return '<label><input type="radio" name="'+name+'" id="'+name+'-'+val.replace(/\W/g,'')+'" value="'+esc(val)+'"'+(s[name]===val?' checked':'')+'><span>'+esc(label)+'</span></label>'; }
+    app.innerHTML =
+      '<main class="wrap start">' +
+        '<header><div class="eyebrow">NPTE-style practice · PT 611</div>' +
+          '<h1>Hip, Knee &amp; Ankle-Foot Biomechanics</h1>' +
+          '<p class="lede dim">' + BANK.length + ' one-best-answer questions built from the Hip, Knee, and Ankle-Foot lecture decks. Arthrokinematics, alignment angles, ligament restraints, kinetic-chain coupling, and joint loading.</p></header>' +
+        '<section class="blueprint" aria-label="Exam blueprint">' + JOINTS.map(function(j){ return '<div class="bp"><b class="num">' + counts[j] + '</b><span class="dim">' + esc(j) + '</span></div>'; }).join("") + '</section>' +
+        resume +
+        '<section class="panel" aria-label="Exam settings">' +
+          '<fieldset><legend>Questions</legend><div class="seg">' + seg("section","all","All " + BANK.length) + JOINTS.map(function(j){ return seg("section", j, j + " (" + counts[j] + ")"); }).join("") + '</div></fieldset>' +
+          '<fieldset><legend>Timing</legend><div class="seg">' + seg("timer","npte","NPTE pace · " + fmt(nSel*SEC_PER_Q)) + seg("timer","off","Untimed") + '</div>' +
+            '<div class="dim" style="font-size:13px">NPTE pace is 72 seconds per question (5 hours for 250 items). The exam submits itself when time runs out.</div></fieldset>' +
+          '<fieldset><legend>Order</legend>' +
+            '<label class="check"><input type="checkbox" id="shuffleQ"' + (s.shuffleQ?' checked':'') + '><span>Mix questions from all joints <span class="dim">(off keeps Hip, Knee, then Ankle &amp; Foot)</span></span></label>' +
+            '<label class="check"><input type="checkbox" id="shuffleO"' + (s.shuffleO?' checked':'') + '><span>Shuffle answer choices each attempt</span></label></fieldset>' +
+          '<div class="row"><button class="btn primary" id="begin">Start exam · ' + nSel + ' questions</button></div>' +
+        '</section>' +
+        '<section><h2 style="font-size:20px;margin-bottom:10px">How it works</h2><ul class="rules dim">' +
+          '<li>Every wrong choice contains at least one true statement, such as the right diagnosis with the wrong mechanism. Check every part of a choice before you pick it.</li>' +
+          '<li>Pause any time: the clock stops and the question is hidden until you resume.</li>' +
+          '<li>Flag questions to come back to. The navigator shows what is answered and flagged.</li>' +
+          '<li>Answers and explanations appear only after you submit. Each choice gets its own rationale, and each question ends with the key concept.</li>' +
+          '<li>Progress saves in this browser, so you can close the tab and resume.</li>' +
+          '<li>Keyboard: <span class="kbd"><kbd>A</kbd>–<kbd>D</kbd> or <kbd>1</kbd>–<kbd>4</kbd> to answer, <kbd>←</kbd> <kbd>→</kbd> to move, <kbd>F</kbd> to flag, <kbd>P</kbd> to pause</span>.</li>' +
+        '</ul></section>' +
+      '</main>';
+    app.querySelectorAll('input[name="section"],input[name="timer"]').forEach(function(el){
+      el.addEventListener("change", function(){ ui.setup[el.name] = el.value; renderStart(); var f = document.getElementById(el.id); if(f) f.focus(); });
+    });
+    document.getElementById("shuffleQ").addEventListener("change", function(e){ ui.setup.shuffleQ = e.target.checked; });
+    document.getElementById("shuffleO").addEventListener("change", function(e){ ui.setup.shuffleO = e.target.checked; });
+    document.getElementById("begin").addEventListener("click", startFromSetup);
+    var b;
+    if((b = document.getElementById("resume"))) b.addEventListener("click", function(){ S = saved; S.view = "exam"; S.paused = false; save(); render(); });
+    if((b = document.getElementById("discard"))) b.addEventListener("click", function(){ clear(); S = null; renderStart(); });
+    if((b = document.getElementById("viewlast"))) b.addEventListener("click", function(){ S = saved; S.view = "results"; render(); });
+  }
+
+  function barHTML(){
+    var n = S.ids.length, a = answeredCount();
+    return '<div class="bar"><div class="wrap">' +
+      '<span class="pos num">Question ' + (S.cur+1) + ' of ' + n + '</span>' +
+      '<span class="dim num hide-sm">' + a + ' answered · ' + flaggedCount() + ' flagged</span>' +
+      '<span class="grow"></span>' +
+      '<span class="timer num' + (S.limit && S.remaining <= 300 ? ' low' : '') + '" id="timer" title="' + (S.limit ? 'Time remaining' : 'Time elapsed') + '">' + (S.limit ? fmt(S.remaining) : fmt(S.elapsed)) + '</span>' +
+      '<button class="btn ghost" id="pause" title="Pause (P)">Pause</button>' +
+      '<button class="btn ghost" id="navToggle" aria-expanded="' + ui.navOpen + '">Questions</button>' +
+      '<button class="btn primary" id="toCheck">Review &amp; submit</button>' +
+      '</div><div class="progress" aria-hidden="true"><i style="width:' + pct(a,n) + '%"></i></div></div>';
+  }
+  function navHTML(){
+    if(!ui.navOpen) return "";
+    return '<div class="nav"><div class="wrap"><div class="grid" role="list">' + S.ids.map(function(id, i){
+      var c = []; if(S.answers[id] != null) c.push("ans"); if(S.flags[id]) c.push("flg"); if(i === S.cur) c.push("cur");
+      return '<button role="listitem" class="' + c.join(" ") + '" data-go="' + i + '" aria-label="Question ' + (i+1) + (S.answers[id]!=null?', answered':', unanswered') + (S.flags[id]?', flagged':'') + '">' + (i+1) + '</button>';
+    }).join("") + '</div><div class="legend"><span><i style="background:var(--surface-2)"></i>Answered</span><span><i style="background:var(--bg)"></i>Unanswered</span><span><i style="background:var(--flag);border-color:var(--flag);border-radius:50%"></i>Flagged</span></div></div></div>';
+  }
+  function bindBar(){
+    document.getElementById("pause").addEventListener("click", function(){ setPaused(true); });
+    document.getElementById("navToggle").addEventListener("click", function(){ ui.navOpen = !ui.navOpen; render(); });
+    document.getElementById("toCheck").addEventListener("click", function(){ S.view = "check"; save(); render(); window.scrollTo(0,0); });
+    app.querySelectorAll("[data-go]").forEach(function(b){ b.addEventListener("click", function(){ S.cur = +b.dataset.go; S.view = "exam"; save(); render(); }); });
+  }
+
+  function setPaused(on){
+    S.paused = on; save(); render(); window.scrollTo(0,0);
+    var f = document.getElementById(on ? "unpause" : "pause"); if(f) f.focus();
+  }
+  function renderPaused(){
+    stopTimer();
+    app.innerHTML =
+      '<main class="wrap paused"><div class="pause-card" role="dialog" aria-labelledby="pausedTitle">' +
+        '<div class="eyebrow">' + esc(S.label) + '</div>' +
+        '<h1 id="pausedTitle" style="font-size:28px">Exam paused</h1>' +
+        '<div><div class="timer num">' + (S.limit ? fmt(S.remaining) : fmt(S.elapsed)) + '</div>' +
+          '<div class="dim" style="margin-top:6px">' + (S.limit ? 'remaining · the clock is stopped' : 'elapsed · the clock is stopped') + '</div></div>' +
+        '<div class="dim num">Question ' + (S.cur+1) + ' of ' + S.ids.length + ' · ' + answeredCount() + ' answered · ' + flaggedCount() + ' flagged</div>' +
+        '<div class="dim" style="font-size:13px">The question is hidden while paused. Your progress is saved, so you can also close this tab and resume later.</div>' +
+        '<div class="row"><button class="btn primary" id="unpause">Resume exam</button></div>' +
+        '<div class="kbd">Press <kbd>P</kbd> to resume</div>' +
+      '</div></main>';
+    document.getElementById("unpause").addEventListener("click", function(){ setPaused(false); });
+  }
+
+  function renderExam(){
+    var id = S.ids[S.cur], q = BY_ID[id], perm = S.perm[id], picked = S.answers[id];
+    app.innerHTML = barHTML() + navHTML() +
+      '<main class="wrap qwrap">' +
+        '<div class="qmeta"><span class="chip">' + esc(q.joint) + '</span>' + (S.flags[id] ? '<span class="chip flag">Flagged</span>' : '') + '</div>' +
+        '<p class="stem" id="stem">' + esc(q.stem) + '</p>' +
+        '<div class="opts" role="radiogroup" aria-labelledby="stem">' + perm.map(function(orig, k){
+          var sel = picked === orig;
+          return '<label class="opt' + (sel ? ' sel' : '') + '"><input type="radio" name="ans" id="ans-' + k + '" value="' + orig + '"' + (sel ? ' checked' : '') + '>' +
+                 '<span class="let">' + LETTERS[k] + '</span><span class="txt">' + esc(q.options[orig]) + '</span></label>';
+        }).join("") + '</div>' +
+        '<div class="qnav">' +
+          '<button class="btn" id="prev"' + (S.cur === 0 ? ' disabled' : '') + '>← Previous</button>' +
+          '<button class="btn' + (S.flags[id] ? ' flagged' : '') + '" id="flag" aria-pressed="' + !!S.flags[id] + '">' + (S.flags[id] ? 'Flagged' : 'Flag for review') + '</button>' +
+          (S.cur === S.ids.length - 1 ? '<button class="btn primary" id="next">Review &amp; submit</button>' : '<button class="btn primary" id="next">Next →</button>') +
+        '</div>' +
+        '<div class="kbd"><kbd>A</kbd>–<kbd>D</kbd> answer · <kbd>←</kbd><kbd>→</kbd> move · <kbd>F</kbd> flag · <kbd>P</kbd> pause</div>' +
+      '</main>';
+    bindBar();
+    app.querySelectorAll('input[name="ans"]').forEach(function(r){
+      r.addEventListener("change", function(){ choose(+r.value, r.id); });
+    });
+    document.getElementById("prev").addEventListener("click", function(){ go(-1); });
+    document.getElementById("next").addEventListener("click", function(){ go(1); });
+    document.getElementById("flag").addEventListener("click", toggleFlag);
+    startTimer();
+  }
+  function choose(orig, focusId){
+    S.answers[S.ids[S.cur]] = orig; save(); render();
+    var f = focusId && document.getElementById(focusId); if(f) f.focus();
+  }
+  function toggleFlag(){ var id = S.ids[S.cur]; S.flags[id] = !S.flags[id]; if(!S.flags[id]) delete S.flags[id]; save(); render(); var f = document.getElementById("flag"); if(f) f.focus(); }
+  function go(d){
+    var n = S.cur + d;
+    if(n >= S.ids.length){ S.view = "check"; save(); render(); window.scrollTo(0,0); return; }
+    if(n < 0) return;
+    S.cur = n; save(); render(); window.scrollTo(0,0);
+  }
+
+  function renderCheck(){
+    var un = [], fl = [];
+    S.ids.forEach(function(id, i){ if(S.answers[id] == null) un.push(i); if(S.flags[id]) fl.push(i); });
+    function jumps(list){ return list.length ? '<div class="jumps">' + list.map(function(i){ return '<button data-go="' + i + '">' + (i+1) + '</button>'; }).join("") + '</div>' : '<div class="dim">None</div>'; }
+    app.innerHTML = barHTML() + navHTML() +
+      '<main class="wrap check-screen">' +
+        '<h1 style="font-size:28px">Ready to submit?</h1>' +
+        '<div class="tally"><div><b>' + (S.ids.length - un.length) + '</b><span class="dim">Answered</span></div><div><b>' + un.length + '</b><span class="dim">Unanswered</span></div><div><b>' + fl.length + '</b><span class="dim">Flagged</span></div></div>' +
+        (un.length ? '<div class="notice">Unanswered questions are scored as incorrect, the same as on the NPTE. There is no penalty for guessing.</div>' : '') +
+        '<section><h2 style="font-size:18px;margin-bottom:8px">Unanswered</h2>' + jumps(un) + '</section>' +
+        '<section><h2 style="font-size:18px;margin-bottom:8px">Flagged</h2>' + jumps(fl) + '</section>' +
+        '<div class="row"><button class="btn primary" id="submit">Submit exam and see explanations</button><button class="btn" id="back">Back to question ' + (S.cur+1) + '</button></div>' +
+        '<div class="dim" style="font-size:13px">After you submit, answers are locked.</div>' +
+      '</main>';
+    bindBar();
+    document.getElementById("submit").addEventListener("click", submit);
+    document.getElementById("back").addEventListener("click", function(){ S.view = "exam"; save(); render(); });
+    startTimer();
+  }
+
+  function renderResults(){
+    stopTimer();
+    var n = S.ids.length, right = S.ids.filter(isRight).length;
+    var joints = JOINTS.filter(function(j){ return S.ids.some(function(id){ return BY_ID[id].joint === j; }); });
+    var rows = joints.map(function(j){
+      var ids = S.ids.filter(function(id){ return BY_ID[id].joint === j; }), r = ids.filter(isRight).length, p = pct(r, ids.length);
+      var col = p >= TARGET ? "var(--good)" : p >= 55 ? "var(--flag)" : "var(--bad)";
+      return '<div class="brow"><span>' + esc(j) + '</span><div class="meter" role="img" aria-label="' + p + ' percent"><i style="width:' + p + '%;background:' + col + '"></i></div><span class="num" style="text-align:right">' + r + '/' + ids.length + ' · ' + p + '%</span></div>';
+    }).join("");
+    var topics = {};
+    S.ids.forEach(function(id){ var q = BY_ID[id], k = q.joint + " · " + q.topic; topics[k] = topics[k] || {r:0,n:0}; topics[k].n++; if(isRight(id)) topics[k].r++; });
+    var weak = Object.keys(topics).map(function(k){ return {k:k, r:topics[k].r, n:topics[k].n}; }).filter(function(t){ return t.r < t.n; })
+      .sort(function(a,b){ return (a.r/a.n) - (b.r/b.n) || b.n - a.n; }).slice(0, 8);
+    var missed = S.ids.filter(function(id){ return !isRight(id); });
+    var flagged = S.ids.filter(function(id){ return S.flags[id]; });
+
+    function fbtn(val, label, count){ return '<label><input type="radio" name="filter" id="f-' + val + '" value="' + val + '"' + (ui.filter===val?' checked':'') + '><span>' + label + ' <span class="dim num">' + count + '</span></span></label>'; }
+    function jbtn(val, label){ return '<label><input type="radio" name="jf" id="j-' + val.replace(/\W/g,'') + '" value="' + esc(val) + '"' + (ui.joint===val?' checked':'') + '><span>' + esc(label) + '</span></label>'; }
+
+    app.innerHTML =
+      '<main class="wrap results">' +
+        '<header><div class="eyebrow">' + esc(S.label) + (S.timedOut ? ' · time expired' : '') + '</div>' +
+          '<div class="score"><span class="big">' + pct(right, n) + '%</span><div><div style="font-weight:600;font-size:17px">' + right + ' of ' + n + ' correct</div>' +
+          '<div class="dim num">Time used ' + fmt(S.elapsed) + (S.limit ? ' of ' + fmt(S.limit) : '') + ' · ' + (n - answeredCount()) + ' unanswered</div></div></div></header>' +
+        '<section class="breakdown" aria-label="Score by joint"><h2 style="font-size:20px">By joint</h2>' + rows +
+          '<div class="dim" style="font-size:12px">The marker on each bar is a ' + TARGET + '% practice target.</div></section>' +
+        (weak.length ? '<section><h2 style="font-size:20px;margin-bottom:10px">Topics to revisit</h2><ul class="weak">' + weak.map(function(t){ return '<li><span>' + esc(t.k) + '</span><span class="num dim">' + t.r + '/' + t.n + '</span></li>'; }).join("") + '</ul></section>' : '') +
+        '<div class="row">' +
+          (missed.length ? '<button class="btn primary" id="retakeMissed">Retake the ' + missed.length + ' missed</button>' : '') +
+          '<button class="btn" id="retakeAll">Retake all ' + n + '</button>' +
+          '<button class="btn ghost" id="newSetup">New exam settings</button></div>' +
+        '<section style="display:grid;gap:14px"><h2 style="font-size:20px">Answers and explanations</h2>' +
+          '<div class="filters seg">' + fbtn("all","All",n) + fbtn("wrong","Incorrect",missed.length) + fbtn("flagged","Flagged",flagged.length) + '</div>' +
+          (joints.length > 1 ? '<div class="filters seg">' + jbtn("all","All joints") + joints.map(function(j){ return jbtn(j,j); }).join("") + '</div>' : '') +
+          '<div class="review" id="review"></div></section>' +
+      '</main>';
+    renderReviewList();
+    app.querySelectorAll('input[name="filter"]').forEach(function(el){ el.addEventListener("change", function(){ ui.filter = el.value; renderReviewList(); }); });
+    app.querySelectorAll('input[name="jf"]').forEach(function(el){ el.addEventListener("change", function(){ ui.joint = el.value; renderReviewList(); }); });
+    var b;
+    if((b = document.getElementById("retakeMissed"))) b.addEventListener("click", function(){ newAttempt(missed, { shuffleQ:true, shuffleO:true, timer: S.limit ? "npte" : "off", label:"Missed-question retake" }); window.scrollTo(0,0); });
+    document.getElementById("retakeAll").addEventListener("click", function(){ newAttempt(S.ids, { shuffleQ:true, shuffleO:true, timer: S.limit ? "npte" : "off", label:S.label }); window.scrollTo(0,0); });
+    document.getElementById("newSetup").addEventListener("click", function(){ S.view = "start"; S = null; renderStart(); window.scrollTo(0,0); });
+  }
+
+  function renderReviewList(){
+    var list = S.ids.map(function(id, i){ return {id:id, i:i}; }).filter(function(x){
+      var q = BY_ID[x.id];
+      if(ui.joint !== "all" && q.joint !== ui.joint) return false;
+      if(ui.filter === "wrong") return !isRight(x.id);
+      if(ui.filter === "flagged") return !!S.flags[x.id];
+      return true;
+    });
+    var el = document.getElementById("review");
+    if(!list.length){ el.innerHTML = '<div class="empty dim">No questions match this filter.</div>'; return; }
+    el.innerHTML = list.map(function(x){
+      var q = BY_ID[x.id], perm = S.perm[x.id], pick = S.answers[x.id], ok = isRight(x.id);
+      var status = pick == null ? '<span class="chip" style="color:var(--bad)">Unanswered</span>' : ok ? '<span class="chip" style="color:var(--good)">Correct</span>' : '<span class="chip" style="color:var(--bad)">Incorrect</span>';
+      return '<article class="rq ' + (ok ? 'ok' : 'no') + '">' +
+        '<div class="qmeta"><span class="chip num">Q' + (x.i+1) + '</span>' + status + '<span class="chip">' + esc(q.joint) + '</span><span class="dim" style="font-size:13px">' + esc(q.topic) + '</span>' + (S.flags[x.id] ? '<span class="chip flag">Flagged</span>' : '') + '</div>' +
+        '<p class="stem">' + esc(q.stem) + '</p>' +
+        '<div class="opts">' + perm.map(function(orig, k){
+          var key = orig === q.answer, mine = orig === pick;
+          var cls = key ? "key" : (mine ? "picked-wrong" : "");
+          var tag = key && mine ? "Correct · your answer" : key ? "Correct answer" : mine ? "Your answer" : "";
+          return '<div class="ropt ' + cls + '"><span class="let">' + LETTERS[k] + '</span><div>' +
+            (tag ? '<span class="tag">' + tag + '</span>' : '') + '<span>' + esc(q.options[orig]) + '</span>' +
+            '<div class="why">' + esc(q.rationale[orig]) + '</div></div></div>';
+        }).join("") + '</div>' +
+        '<div class="concept"><b>Key concept</b>' + esc(q.explanation) + '</div>' +
+      '</article>';
+    }).join("");
+  }
+
+  /* ---------- keyboard ---------- */
+  document.addEventListener("keydown", function(e){
+    if(!S || S.submitted || S.view === "start" || e.metaKey || e.ctrlKey || e.altKey) return;
+    if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) && e.target.type !== "radio") return;
+    if(e.key.toLowerCase() === "p"){ e.preventDefault(); setPaused(!S.paused); return; }
+    if(S.paused || S.view !== "exam") return;
+    var k = e.key.toLowerCase(), idx = "abcd".indexOf(k); if(idx < 0) idx = "1234".indexOf(k);
+    if(idx >= 0){ e.preventDefault(); choose(S.perm[S.ids[S.cur]][idx], "ans-" + idx); return; }
+    if(e.key === "ArrowRight"){ e.preventDefault(); go(1); }
+    else if(e.key === "ArrowLeft"){ e.preventDefault(); go(-1); }
+    else if(k === "f"){ e.preventDefault(); toggleFlag(); }
+  });
+
+  /* ---------- boot ---------- */
+  if(!BANK.length){ app.innerHTML = '<main class="wrap start"><h1>Question bank missing</h1><p class="dim">exam-questions.js did not load. Keep it in the same folder as this page.</p></main>'; return; }
+  var saved = load();
+  if(saved && saved.submitted && saved.ids && saved.ids.every(function(id){ return BY_ID[id]; })){ S = saved; S.view = "results"; render(); }
+  else { S = null; renderStart(); }
+})();
+</script>
+</body>
+</html>
