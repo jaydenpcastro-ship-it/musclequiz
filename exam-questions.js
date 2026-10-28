@@ -1,9 +1,11 @@
 /* ---------------------------------------------------------------
-   NPTE-STYLE PRACTICE EXAM — Hip, Knee, Ankle & Foot biomechanics
-   100 questions (Hip 33 · Knee 33 · Ankle & Foot 34), built from the
-   PT 611 Fall 2024 lecture decks. Used by exam.html.
+   NPTE-STYLE PRACTICE EXAM — Hip, Knee, Ankle & Foot biomechanics, and Gait
+   132 questions (Hip 39 · Knee 42 · Ankle & Foot 44 · Gait 7).
+   Questions 1–100 were built from the PT 611 Fall 2024 lecture decks.
+   Questions 101+ (set: "Exam 2 review") follow the Exam 2 review sheet.
+   Used by exam.html.
 
-   Each entry: { id, joint, topic, stem, options[4], rationale[4],
+   Each entry: { id, joint, topic, set?, stem, options[4], rationale[4],
                  answer (zero-based index), explanation }
    rationale[i] explains why options[i] is right or wrong.
    --------------------------------------------------------------- */
@@ -1354,16 +1356,16 @@ window.NPTE_EXAM = [
   "topic": "Talocrural arthrokinematics",
   "stem": "A patient performs a weight-bearing lunge, dorsiflexing the ankle over a fixed foot. Which description of this motion is MOST accurate?",
   "options": [
-   "Slight abduction and inversion, because the lateral malleolus sits more distal and posterior",
-   "Slight abduction and eversion, because the lateral malleolus sits more distal and posterior",
-   "Slight adduction and eversion, because the lateral malleolus sits more distal and posterior",
-   "Slight abduction and eversion, because the medial malleolus sits more distal and posterior"
+   "Forward, slightly lateral, and medially rotating; the tibia rolls and slides in opposite directions",
+   "Forward, slightly lateral, and medially rotating; the tibia rolls and slides anteriorly together",
+   "Forward and slightly lateral as the convex talus rolls and slides on the fixed concave mortise",
+   "Forward, slightly lateral, and laterally rotating; the tibia rolls and slides anteriorly together"
   ],
   "rationale": [
-   "Same-direction roll and slide is right, but weight-bearing dorsiflexion rotates the leg medially.",
-   "Correct. In weight bearing the concave mortise moves on the fixed convex talus, so roll and slide go in the same direction. The oblique axis adds lateral movement and medial rotation of the leg.",
    "The leg motion is right, but the concave mortise moving on the convex talus rolls and slides in the same direction.",
-   "The coupled motions are right, but it is the lateral malleolus that sits more distal and posterior. That is what tilts the axis."
+   "Correct. In weight bearing the concave mortise moves on the fixed convex talus, so roll and slide go in the same direction. The oblique axis adds lateral movement and medial rotation of the leg.",
+   "Moving forward and slightly lateral is right, but in weight bearing the concave mortise moves on the fixed talus. The talus moving on the mortise describes non-weight-bearing dorsiflexion.",
+   "Same-direction roll and slide is right, but weight-bearing dorsiflexion rotates the leg medially."
   ],
   "answer": 1,
   "explanation": "Non-weight-bearing: the convex talus moves on the concave mortise, so roll and slide go in opposite directions (dorsiflexion means the talus rolls anteriorly and slides posteriorly). Weight-bearing: the mortise moves on the talus, so roll and slide go in the same direction. Weight-bearing dorsiflexion moves the leg forward, laterally, and into medial rotation."
@@ -1374,10 +1376,10 @@ window.NPTE_EXAM = [
   "topic": "Mortise stability",
   "stem": "Why do lateral ankle sprains occur MOST often with the ankle plantarflexed and inverted?",
   "options": [
-   "Forward, slightly lateral, and medially rotating; the tibia rolls and slides in opposite directions",
-   "Forward, slightly lateral, and medially rotating; the tibia rolls and slides anteriorly together",
-   "Forward and slightly lateral as the convex talus rolls and slides on the fixed concave mortise",
-   "Forward, slightly lateral, and laterally rotating; the tibia rolls and slides anteriorly together"
+   "The narrow posterior talus sits loosely in the mortise, and the CFL becomes the main inversion restraint",
+   "The narrow posterior talus sits loosely in the mortise, and the ATFL becomes the main inversion restraint",
+   "The ATFL becomes the main inversion restraint, and the talus is wider posteriorly than anteriorly",
+   "The deltoid is stronger than the lateral ligaments, and plantarflexion is the close-packed position"
   ],
   "rationale": [
    "The narrow posterior talus is right, but in plantarflexion the ATFL becomes vertical and takes over. The CFL is the restraint in neutral and dorsiflexion.",
@@ -1394,10 +1396,10 @@ window.NPTE_EXAM = [
   "topic": "Talocrural arthrokinematics",
   "stem": "After 6 weeks in a walking boot, a patient has 2° of ankle dorsiflexion with a capsular end feel. Which mobilization and rationale are MOST appropriate?",
   "options": [
-   "The narrow posterior talus sits loosely in the mortise, and the CFL becomes the main inversion restraint",
-   "The narrow posterior talus sits loosely in the mortise, and the ATFL becomes the main inversion restraint",
-   "The ATFL becomes the main inversion restraint, and the talus is wider posteriorly than anteriorly",
-   "The deltoid is stronger than the lateral ligaments, and plantarflexion is the close-packed position"
+   "Posterior talar glide; the convex talus rolls and slides in the same direction",
+   "Posterior talar glide; the convex talus rolls anteriorly and slides posteriorly in dorsiflexion",
+   "Posterior talar glide started in end-range dorsiflexion, the close-packed position",
+   "Anterior talar glide; the convex talus rolls and slides in opposite directions"
   ],
   "rationale": [
    "The posterior glide is right, but the convex talus rolls and slides in opposite directions.",
@@ -1434,16 +1436,16 @@ window.NPTE_EXAM = [
   "topic": "Tibiofibular joints",
   "stem": "A patient's dorsiflexion is limited after a fibular fracture. Which statement about the proximal tibiofibular joint during ankle motion is MOST accurate?",
   "options": [
-   "Soleus tightness; stretch with the knee extended",
-   "Gastrocnemius tightness; stretch with the knee extended",
-   "Gastrocnemius tightness; stretch with the knee flexed",
-   "Capsular restriction; mobilize with a posterior talar glide"
+   "A fibrous syndesmosis; the fibular head glides superiorly and posteriorly during dorsiflexion",
+   "A plane joint; the fibular head glides superiorly and posteriorly during dorsiflexion",
+   "A plane joint moving by translation and rotation; the fibular head glides inferiorly in dorsiflexion",
+   "A plane joint; the fibular head glides inferiorly and anteriorly during dorsiflexion"
   ],
   "rationale": [
-   "The plane-joint classification is right, but inferior and anterior glide happens with plantarflexion.",
-   "Correct. The fibula has to move for the mortise to adjust to the wide anterior talus. A stiff proximal tibiofibular joint restricts that adjustment.",
    "The glide direction is right, but the proximal tibiofibular joint is a synovial plane joint. The distal tibiofibular joint is the syndesmosis.",
-   "A posterior talar glide is the right technique for a capsular restriction, but a capsular limit would restrict dorsiflexion equally in both knee positions."
+   "Correct. The fibula has to move for the mortise to adjust to the wide anterior talus. A stiff proximal tibiofibular joint restricts that adjustment.",
+   "Combined translation and rotation is right, but the fibular head glides superiorly in dorsiflexion as the wide anterior talus spreads the mortise.",
+   "The plane-joint classification is right, but inferior and anterior glide of the fibular head happens with plantarflexion."
   ],
   "answer": 1,
   "explanation": "The mortise works like an adjustable wrench. Its adjustability depends on the proximal tibiofibular joint (plane joint) and the distal tibiofibular joint (syndesmosis). Fibular glides go with ankle motion: superior and posterior with dorsiflexion, inferior and anterior with plantarflexion."
@@ -1454,10 +1456,10 @@ window.NPTE_EXAM = [
   "topic": "Syndesmosis",
   "stem": "A football player's foot is planted when another player falls on the back of his leg, forcing the ankle into dorsiflexion with the foot externally rotated (abducted). Which injury is MOST likely?",
   "options": [
-   "A fibrous syndesmosis; the fibular head glides superiorly and posteriorly during dorsiflexion",
-   "A plane joint; the fibular head glides superiorly and posteriorly during dorsiflexion",
-   "A plane joint moving by translation and rotation; the fibular head glides inferiorly in dorsiflexion",
-   "A plane joint; the fibular head glides inferiorly and anteriorly during dorsiflexion"
+   "Syndesmotic (high ankle) sprain, the usual result of forced plantarflexion with inversion",
+   "Syndesmotic (high ankle) sprain; the wide anterior talus is forced between the malleoli, disrupting the tibiofibular ligaments",
+   "Sprain of the distal tibiofibular joint capsule, caused by forced dorsiflexion",
+   "ATFL sprain caused by forced dorsiflexion with external rotation"
   ],
   "rationale": [
    "The syndesmotic sprain is right, but plantarflexion with inversion is the lateral (ATFL) sprain mechanism.",
@@ -1494,18 +1496,18 @@ window.NPTE_EXAM = [
   "topic": "Lateral collateral ligaments",
   "stem": "A talar tilt (inversion stress) test performed in neutral dorsiflexion shows excessive inversion. Which ligament is MOST implicated, and why?",
   "options": [
-   "The deltoid controls eversion and is strong enough that the bone often fails first",
-   "The deltoid inserts on the navicular, talus, and calcaneus, and is weaker than bone",
-   "The deltoid controls eversion but is weaker than the lateral collateral ligaments",
-   "The deltoid controls inversion and is strong enough that the bone often fails first"
+   "The CFL; the ATFL is the more vertical band in neutral and is tested in dorsiflexion",
+   "The ATFL, which is more horizontal in neutral and resists inversion best there",
+   "The PTFL; the ATFL is tested with an anterior drawer in plantarflexion",
+   "The CFL, which is vertical in neutral; the ATFL is tested with an anterior drawer"
   ],
   "rationale": [
-   "Correct. The CFL runs nearly vertically in neutral and crosses both the talocrural and subtalar joints, so it resists inversion in that position. The ATFL is tested with an anterior drawer.",
-   "The anterior drawer targeting the ATFL is right, but the PTFL is rarely injured and is not the main inversion restraint in neutral.",
+   "The CFL is right, but the ATFL is horizontal in neutral and becomes vertical in plantarflexion.",
    "The ATFL's horizontal orientation in neutral is right, but that orientation makes it a poor inversion restraint in neutral. It mainly limits anterior talar translation.",
-   "The CFL is right, but the ATFL is horizontal in neutral and becomes vertical in plantarflexion."
+   "The anterior drawer targeting the ATFL is right, but the PTFL is rarely injured and is not the main inversion restraint in neutral.",
+   "Correct. The CFL runs nearly vertically in neutral and crosses both the talocrural and subtalar joints, so it resists inversion in that position. The ATFL is tested with an anterior drawer."
   ],
-  "answer": 0,
+  "answer": 3,
   "explanation": "The ATFL and PTFL are more horizontal and the CFL is more vertical. A ligament resists a motion best when it lies perpendicular to that motion's axis. The CFL works in neutral and dorsiflexion, and the ATFL works in plantarflexion, the usual sprain position."
  },
  {
@@ -1514,18 +1516,18 @@ window.NPTE_EXAM = [
   "topic": "Packed positions",
   "stem": "Which statement about talocrural packed positions and their clinical use is MOST accurate?",
   "options": [
-   "The CFL; the ATFL is the more vertical band in neutral and is tested in dorsiflexion",
-   "The ATFL, which is more horizontal in neutral and resists inversion best there",
-   "The PTFL; the ATFL is tested with an anterior drawer in plantarflexion",
-   "The CFL, which is vertical in neutral; the ATFL is tested with an anterior drawer"
+   "Close-packed is end-range dorsiflexion; open-packed is full end-range plantarflexion",
+   "Close-packed is end-range dorsiflexion; open-packed is slight (about 10°) plantarflexion",
+   "Close-packed is full plantarflexion; open-packed is slight (about 10°) plantarflexion",
+   "Close-packed is end-range dorsiflexion, where the talocrural ligaments are lax"
   ],
   "rationale": [
    "The close-packed position is right, but the open-packed position is slight plantarflexion. Full plantarflexion is an end-range position.",
+   "Correct. Maximal bony congruence and ligament tension occur in full dorsiflexion. Slight plantarflexion leaves the most joint play.",
    "The open-packed position is right, but the close-packed position is end-range dorsiflexion.",
-   "End-range dorsiflexion is right, but in a close-packed position the ligaments are taut.",
-   "Correct. Maximal bony congruence and ligament tension occur in full dorsiflexion. Slight plantarflexion leaves the most joint play."
+   "End-range dorsiflexion is right, but in a close-packed position the ligaments are taut."
   ],
-  "answer": 3,
+  "answer": 1,
   "explanation": "Talocrural close-packed position is end-range dorsiflexion and open-packed is slight plantarflexion. This also explains why dorsiflexion is the stable position for landing and plantarflexion is the vulnerable one."
  },
  {
@@ -1534,16 +1536,16 @@ window.NPTE_EXAM = [
   "topic": "Subtalar joint structure",
   "stem": "Which description of the subtalar (talocalcaneal) articulations is MOST accurate?",
   "options": [
-   "Close-packed is end-range dorsiflexion; open-packed is full end-range plantarflexion",
-   "Close-packed is end-range dorsiflexion; open-packed is slight (about 10°) plantarflexion",
-   "Close-packed is full plantarflexion; open-packed is slight (about 10°) plantarflexion",
-   "Close-packed is end-range dorsiflexion, where the talocrural ligaments are lax"
+   "Posterior facet: concave talus on convex calcaneus, about 25% of force, own capsule",
+   "Posterior facet: concave talus on convex calcaneus, about 75% of force, own capsule",
+   "Posterior facet: concave talus on convex calcaneus, about 75% of force, shared talonavicular capsule",
+   "Posterior facet: convex talus on concave calcaneus, about 75% of force, own capsule"
   ],
   "rationale": [
-   "The 75% load share is right, but at the posterior facet the talus is concave and the calcaneus is convex.",
+   "The surface shapes and separate capsule are right, but the posterior facet carries about 75% of subtalar force.",
    "Correct. The posterior facet is the main load-bearing surface. The anterior and middle facets reverse its configuration (convex talus on concave calcaneus).",
    "The surface shapes are right, but the posterior facet has a separate capsule. The anterior and middle facets share the talonavicular capsule.",
-   "The reversed configuration is right, but the posterior facet carries about 75% of the force."
+   "The 75% load share is right, but at the posterior facet the talus is concave and the calcaneus is convex."
   ],
   "answer": 1,
   "explanation": "The subtalar joint has three plane articulations. The posterior one (concave talus, convex calcaneus) is the largest, carries about 75% of the load, and has its own capsule. The anterior and middle ones (convex talus, concave calcaneus) share a capsule with the talonavicular joint. The tarsal canal and sinus tarsi separate them."
@@ -1554,18 +1556,18 @@ window.NPTE_EXAM = [
   "topic": "Subtalar axis",
   "stem": "A patient's subtalar axis is inclined about 60° from the transverse plane instead of the typical 42°. Compared with a typical foot, how will subtalar motion MOST likely differ?",
   "options": [
-   "Posterior facet: concave talus on convex calcaneus, about 25% of force, own capsule",
-   "Posterior facet: concave talus on convex calcaneus, about 75% of force, own capsule",
-   "Posterior facet: concave talus on convex calcaneus, about 75% of force, shared talonavicular capsule",
-   "Posterior facet: convex talus on concave calcaneus, about 75% of force, own capsule"
+   "More abduction and adduction per degree, with less coupling to leg rotation",
+   "More inversion and eversion per degree, with dorsiflexion and plantarflexion staying minimal",
+   "More abduction and adduction per degree, with more coupling to leg rotation",
+   "More inversion and eversion per degree, with more coupling to leg rotation"
   ],
   "rationale": [
-   "The surface shapes and separate capsule are right, but the posterior facet carries about 75% of subtalar force.",
+   "More transverse-plane motion is right, but transverse-plane talar motion is what links to leg rotation, so coupling increases.",
+   "Minimal dorsiflexion and plantarflexion is right, but a more vertical axis shifts motion toward abduction and adduction, not inversion and eversion.",
    "Correct. A more vertical axis turns subtalar motion toward rotation about a vertical axis (abduction and adduction), which transfers more motion to tibial rotation in weight bearing.",
-   "More coupling to leg rotation is right, but a more vertical axis favors abduction and adduction. A flatter axis favors inversion and eversion.",
-   "More transverse-plane motion is right, but transverse-plane talar motion is what links to leg rotation, so coupling increases."
+   "More coupling to leg rotation is right, but a more vertical axis favors abduction and adduction. A flatter axis favors inversion and eversion."
   ],
-  "answer": 1,
+  "answer": 2,
   "explanation": "The typical subtalar axis is about 42° (29–47°) superior and 16° (8–24°) medial to the A-P axis. At about 45°, inversion and eversion roughly equal abduction and adduction, with minimal dorsiflexion and plantarflexion. A steeper axis shifts motion toward the transverse plane, and a flatter axis shifts it toward the frontal plane."
  },
  {
@@ -1574,16 +1576,16 @@ window.NPTE_EXAM = [
   "topic": "Weight-bearing subtalar motion",
   "stem": "During weight-bearing subtalar SUPINATION, which set of segmental motions occurs?",
   "options": [
-   "More abduction and adduction per degree, with less coupling to leg rotation",
-   "More inversion and eversion per degree, with dorsiflexion and plantarflexion staying minimal",
-   "More abduction and adduction per degree, with more coupling to leg rotation",
-   "More inversion and eversion per degree, with more coupling to leg rotation"
+   "Calcaneal adduction, inversion, and plantarflexion, and leg ER",
+   "Calcaneal inversion, talar adduction and plantarflexion, and leg ER",
+   "Calcaneal inversion, talar abduction and dorsiflexion, and leg ER",
+   "Calcaneal eversion, talar abduction and dorsiflexion, and leg ER"
   ],
   "rationale": [
+   "Inversion and lateral leg rotation are right, but calcaneal adduction and plantarflexion describe non-weight-bearing supination.",
    "Calcaneal inversion and lateral leg rotation are right, but talar adduction and plantarflexion belong to weight-bearing pronation.",
-   "The talar and leg motions are right, but the calcaneus inverts during supination.",
    "Correct. With the calcaneus on the ground it can only invert or evert. The talus moves instead (abduction and dorsiflexion) and carries the leg into lateral rotation, which raises the arch.",
-   "Inversion and lateral leg rotation are right, but calcaneal adduction and plantarflexion describe non-weight-bearing supination."
+   "The talar and leg motions are right, but the calcaneus inverts during supination."
   ],
   "answer": 2,
   "explanation": "Non-weight-bearing supination: the calcaneus adducts, inverts, and plantarflexes on the talus. Weight-bearing supination: the calcaneus inverts while the talus abducts and dorsiflexes, with lateral leg rotation and a higher arch (pes cavus direction). Weight-bearing pronation is the reverse."
@@ -1594,10 +1596,10 @@ window.NPTE_EXAM = [
   "topic": "Kinetic chain",
   "stem": "A runner with excessive weight-bearing pronation has anterior knee pain. Which kinetic chain sequence BEST explains the link?",
   "options": [
-   "Calcaneal adduction, inversion, and plantarflexion, and leg ER",
-   "Calcaneal inversion, talar adduction and plantarflexion, and leg ER",
-   "Calcaneal inversion, talar abduction and dorsiflexion, and leg ER",
-   "Calcaneal eversion, talar abduction and dorsiflexion, and leg ER"
+   "Pronation increases the Q-angle through tibial ER and lateral patellar loading",
+   "Pronation drives tibial IR, which decreases the Q-angle and lateral patellar force",
+   "Talar adduction and plantarflexion drive tibial and femoral IR, increasing the Q-angle and lateral patellar loading",
+   "Talar abduction and dorsiflexion drive tibial IR, increasing the Q-angle"
   ],
   "rationale": [
    "The increased Q-angle is right, but weight-bearing pronation internally rotates the leg.",
@@ -1634,16 +1636,16 @@ window.NPTE_EXAM = [
   "topic": "Transverse tarsal adaptability",
   "stem": "A hiker walks across loose, uneven rocks. Which mechanism allows the midfoot to adapt to the terrain during loading response?",
   "options": [
-   "Tibial ER drives subtalar supination, which carries the transverse tarsal joint into supination and locks it",
-   "Tibial IR drives subtalar supination, which carries the transverse tarsal joint into supination and locks it",
-   "Tibial ER drives subtalar pronation, which carries the transverse tarsal joint into pronation and locks it",
-   "Tibial ER drives subtalar supination, which leaves the transverse tarsal joint mobile to adapt to terrain"
+   "Subtalar pronation unlocks the transverse tarsal joint so the midfoot can absorb motion and conform",
+   "Tibial IR drives subtalar pronation, which locks the transverse tarsal joint for stability",
+   "Subtalar pronation unlocks the transverse tarsal joint, which reduces the midfoot's adaptability",
+   "Subtalar supination unlocks the transverse tarsal joint, which increases the midfoot's adaptability"
   ],
   "rationale": [
    "Correct. In pronation the transverse tarsal joint is unlocked and mobile, so the forefoot can adjust to the ground independently of the rearfoot.",
+   "Tibial IR producing subtalar pronation is right, but pronation unlocks the transverse tarsal joint.",
    "Unlocking through pronation is right, but an unlocked midfoot is more adaptable.",
-   "Adaptability increasing when the midfoot is unlocked is right, but supination locks it.",
-   "Tibial IR producing subtalar pronation is right, but pronation unlocks the transverse tarsal joint."
+   "Adaptability increasing when the midfoot is unlocked is right, but supination locks it."
   ],
   "answer": 0,
   "explanation": "With more subtalar pronation, the transverse tarsal joint becomes mobile and can absorb subtalar motion as the terrain requires. With more subtalar supination, the transverse tarsal joint is carried into supination, cannot absorb motion, and the foot is less adaptable."
@@ -1654,18 +1656,18 @@ window.NPTE_EXAM = [
   "topic": "Transverse tarsal axes",
   "stem": "Which statement about the transverse tarsal (midtarsal) joint axes is MOST accurate?",
   "options": [
-   "Subtalar pronation unlocks the transverse tarsal joint so the midfoot can absorb motion and conform",
-   "Tibial IR drives subtalar pronation, which locks the transverse tarsal joint for stability",
-   "Subtalar pronation unlocks the transverse tarsal joint, which reduces the midfoot's adaptability",
-   "Subtalar supination unlocks the transverse tarsal joint, which increases the midfoot's adaptability"
+   "Longitudinal axis: mainly inversion/eversion. Oblique axis: also mainly inversion/eversion",
+   "Range is about 33–50% of the subtalar joint's. Longitudinal axis: mainly abduction/adduction",
+   "Longitudinal axis: mainly inversion/eversion. Oblique axis: mainly DF/PF and abduction/adduction",
+   "Oblique axis: mainly DF/PF and abduction/adduction. Range exceeds that of the subtalar joint"
   ],
   "rationale": [
-   "Correct. A nearly horizontal A-P axis favors frontal-plane motion. A steep oblique axis favors combined sagittal- and transverse-plane motion.",
-   "The 33–50% figure is right, but the longitudinal axis mainly allows inversion and eversion.",
    "The longitudinal axis description is right, but the oblique axis mainly allows dorsiflexion, plantarflexion, abduction, and adduction, with little inversion or eversion.",
+   "The 33–50% figure is right, but the longitudinal axis mainly allows inversion and eversion.",
+   "Correct. A nearly horizontal A-P axis favors frontal-plane motion. A steep oblique axis favors combined sagittal- and transverse-plane motion.",
    "The oblique axis description is right, but the transverse tarsal joint has only about 33–50% of the subtalar joint's pronation and supination range."
   ],
-  "answer": 0,
+  "answer": 2,
   "explanation": "The transverse tarsal (Chopart) joint is the talonavicular plus calcaneocuboid joints, with an S-shaped joint line. It has two axes. Its motion happens together with subtalar motion and lets the forefoot stay on the ground while the rearfoot moves."
  },
  {
@@ -1674,10 +1676,10 @@ window.NPTE_EXAM = [
   "topic": "Rearfoot–forefoot coupling",
   "stem": "A golfer's tibia externally rotates during the swing while the forefoot must stay flat on the ground. Which midfoot response allows this, and what happens if the rearfoot supinates excessively?",
   "options": [
-   "Longitudinal axis: mainly inversion/eversion. Oblique axis: also mainly inversion/eversion",
-   "Range is about 33–50% of the subtalar joint's. Longitudinal axis: mainly abduction/adduction",
-   "Longitudinal axis: mainly inversion/eversion. Oblique axis: mainly DF/PF and abduction/adduction",
-   "Oblique axis: mainly DF/PF and abduction/adduction. Range exceeds that of the subtalar joint"
+   "Relative transverse tarsal pronation, which increases midfoot adaptability even at extreme supination",
+   "Relative transverse tarsal pronation, because tibial IR drives subtalar supination",
+   "Relative transverse tarsal pronation; if subtalar supination is excessive, the midfoot locks and the forefoot lifts",
+   "Transverse tarsal supination following the rearfoot, because tibial ER drives subtalar supination"
   ],
   "rationale": [
    "Relative transverse tarsal pronation is right, but excessive subtalar supination locks the midfoot and reduces adaptability.",
@@ -1734,18 +1736,18 @@ window.NPTE_EXAM = [
   "topic": "Ray motion",
   "stem": "Which statement about ray (tarsometatarsal) motion is MOST accurate?",
   "options": [
-   "A supination twist: dorsiflexion of rays 1–2 and plantarflexion of rays 4–5",
-   "Medial border pressed down, compensated by plantarflexion of rays 1–2",
-   "A supination twist: plantarflexion of rays 1–2 and dorsiflexion of rays 4–5",
-   "A pronation twist: dorsiflexion of rays 1–2 and plantarflexion of rays 4–5"
+   "1st ray DF with inversion and adduction; 5th ray DF with inversion and adduction; 3rd ray nearly pure DF/PF",
+   "1st ray DF with eversion and abduction; 5th ray DF with inversion and adduction; 3rd ray nearly pure DF/PF",
+   "1st ray is the second most mobile; 5th ray DF with eversion and abduction; 3rd ray nearly pure DF/PF",
+   "1st ray DF with inversion and adduction; 5th ray DF with eversion and abduction; 3rd ray nearly pure DF/PF"
   ],
   "rationale": [
-   "Correct. Ray axes are oblique, so motion is coupled. The 1st and 5th rays mirror each other, and the 3rd ray's axis is nearly coronal.",
-   "The 3rd ray axis is right, but the 1st ray is the most mobile. The 5th ray is second.",
    "The 1st ray coupling is right, but the 5th ray mirrors it: dorsiflexion with eversion and abduction.",
-   "The ray motions are right, but the compensation for a pronated rearfoot is called a supination twist."
+   "The 3rd ray is right, but both couplings are reversed. The 1st ray dorsiflexes with inversion and adduction, and the 5th with eversion and abduction.",
+   "The 3rd ray axis is right, but the 1st ray is the most mobile. The 5th ray is second.",
+   "Correct. Ray axes are oblique, so motion is coupled. The 1st and 5th rays mirror each other, and the 3rd ray's axis is nearly coronal."
   ],
-  "answer": 0,
+  "answer": 3,
   "explanation": "The 1st ray is the most mobile (dorsiflexion with inversion and adduction, plantarflexion with eversion and abduction). The 5th ray is second (dorsiflexion with eversion and abduction, plantarflexion with inversion and adduction). The 3rd ray is mostly sagittal, and the 2nd and 4th are in between. Ray motion can compensate for the rearfoot."
  },
  {
@@ -1754,15 +1756,15 @@ window.NPTE_EXAM = [
   "topic": "Windlass mechanism",
   "stem": "During the Jack's test, the PT passively extends the patient's great toe in standing and the medial arch rises. Which explanation is MOST accurate?",
   "options": [
-   "1st ray DF with inversion and adduction; 5th ray DF with inversion and adduction; 3rd ray nearly pure DF/PF",
-   "1st ray DF with eversion and abduction; 5th ray DF with inversion and adduction; 3rd ray nearly pure DF/PF",
-   "1st ray is the second most mobile; 5th ray DF with eversion and abduction; 3rd ray nearly pure DF/PF",
-   "1st ray DF with inversion and adduction; 5th ray DF with eversion and abduction; 3rd ray nearly pure DF/PF"
+   "Plantar fascia tension from MTP extension, which pronates the rearfoot",
+   "Plantar fascia tension from MTP extension, which pulls the 1st metatarsal into dorsiflexion and lowers the arch",
+   "Active contraction of the posterior tibialis, triggered as the toe is extended",
+   "The windlass mechanism; tensing the plantar fascia pulls the heel toward the metatarsal heads, raising the arch and supinating the foot"
   ],
   "rationale": [
    "Plantar fascia tension is right, but the windlass supinates the rearfoot, which is why the arch rises.",
-   "The 3rd ray is right, but the 1st and 5th ray couplings are reversed.",
-   "The 5th and 3rd ray descriptions are right, but the 1st ray is the most mobile. The 5th ray is second.",
+   "Plantar fascia tension is right, but the windlass plantarflexes the 1st metatarsal and raises the arch. It does not lower it.",
+   "The arch rising is right, but the test is passive. The rise comes from fascial tension, not muscle contraction.",
    "Correct. This is the windlass mechanism. Tensioning the fascia shortens the distance between the heel and the metatarsal heads, which raises the arch and supinates the foot."
   ],
   "answer": 3,
@@ -1794,15 +1796,15 @@ window.NPTE_EXAM = [
   "topic": "Metatarsal break",
   "stem": "Which statement about the metatarsal break during push-off is MOST accurate?",
   "options": [
-   "The fascia arises from the medial calcaneal tubercle, and its tension reaches about 3 times body weight",
-   "The fascia deforms 9–12% in stance, with tension highest at initial contact and falling toward push-off",
-   "Tension peaks at about 96% of body weight, and the fascia arises from the lateral calcaneal tubercle",
-   "Tension rises to about 96% of body weight from initial contact to terminal stance"
+   "An axis angled about 54–73°, set by metatarsals that grow longer toward the lateral side",
+   "An oblique axis through the 2nd–5th metatarsal heads that occurs with MTP flexion",
+   "A coronal axis through all five metatarsal heads that occurs with MTP extension",
+   "An oblique axis through the 2nd–5th metatarsal heads that occurs with MTP extension"
   ],
   "rationale": [
    "The angle is right, but the metatarsals get shorter, not longer, toward the lateral side.",
-   "MTP extension is right, but the axis is oblique (54–73°), not coronal.",
    "The oblique axis is right, but the break happens with MTP extension during heel rise.",
+   "MTP extension is right, but the axis is oblique (54–73°), not coronal.",
    "Correct. Because the lateral metatarsals are progressively shorter, the MTP extension axis is oblique. That spreads load and ROM across the metatarsal heads as the heel rises."
   ],
   "answer": 3,
@@ -1814,18 +1816,18 @@ window.NPTE_EXAM = [
   "topic": "First MTP arthrokinematics",
   "stem": "A dancer with early hallux rigidus has 35° of first MTP extension. Which open-chain mobilization and rationale are MOST appropriate?",
   "options": [
-   "An axis angled about 54–73°, set by metatarsals that grow longer toward the lateral side",
-   "An oblique axis through the 2nd–5th metatarsal heads that occurs with MTP flexion",
-   "A coronal axis through all five metatarsal heads that occurs with MTP extension",
-   "An oblique axis through the 2nd–5th metatarsal heads that occurs with MTP extension"
+   "Dorsal glide of the phalanx; concave on convex, so roll and glide go in opposite directions",
+   "Dorsal glide of the phalanx toward the normal first MTP extension of about 40°",
+   "Dorsal glide of the phalanx; concave on convex, so roll and glide go the same direction",
+   "Plantar glide of the phalanx; concave on convex, so roll and glide go the same direction"
   ],
   "rationale": [
-   "The dorsal glide is right, but normal first-toe extension is about 80°.",
    "The dorsal glide is right, but concave-on-convex roll and glide go in the same direction.",
-   "The concave-on-convex rule is right, but a plantar glide improves MTP flexion. Extension needs a dorsal glide.",
-   "Correct. In open chain the phalanx rolls and glides dorsally during extension. Normal first-toe extension is about 80°, so this patient lacks a lot of range for push-off and relevé."
+   "The dorsal glide is right, but normal first-toe extension is about 80°.",
+   "Correct. In open chain the phalanx rolls and glides dorsally during extension. Normal first-toe extension is about 80°, so this patient lacks a lot of range for push-off and relevé.",
+   "The concave-on-convex rule is right, but a plantar glide improves MTP flexion. Extension needs a dorsal glide."
   ],
-  "answer": 3,
+  "answer": 2,
   "explanation": "MTP joints are condyloid with more extension than flexion. Most MTP flexion is really a return to neutral from extension. Open chain: concave phalanx on convex head, same-direction roll and glide. Closed chain: convex head on concave phalanx, opposite-direction roll and glide."
  },
  {
@@ -1834,14 +1836,14 @@ window.NPTE_EXAM = [
   "topic": "Hallux valgus",
   "stem": "A patient has a progressive bunion deformity with the great toe angled toward the 2nd toe. Which statement is MOST accurate?",
   "options": [
-   "Dorsal glide of the phalanx; concave on convex, so roll and glide go in opposite directions",
-   "Dorsal glide of the phalanx toward the normal first MTP extension of about 40°",
-   "Dorsal glide of the phalanx; concave on convex, so roll and glide go the same direction",
-   "Plantar glide of the phalanx; concave on convex, so roll and glide go the same direction"
+   "Varus drift of the hallux, often associated with other kinetic chain factors such as pronation",
+   "Valgus drift beyond the normal 15–19° of hallux adduction, often with valgus of the 1st metatarsal at the TMT",
+   "Valgus drift beyond the normal 15–19° of hallux adduction, often with varus of the 1st metatarsal at the TMT",
+   "Valgus drift beyond the normal 30–35° of hallux adduction, often with varus of the 1st metatarsal at the TMT"
   ],
   "rationale": [
-   "The normal 15–19° is right, but hallux valgus is linked to varus angulation of the 1st metatarsal.",
    "The link to kinetic chain factors is right, but hallux valgus is an increase in valgus angulation of the toe.",
+   "The normal 15–19° is right, but hallux valgus is linked to varus angulation of the 1st metatarsal.",
    "Correct. The 1st metatarsal drifts medially (varus) at the 1st TMT joint while the hallux drifts laterally (valgus), widening the angle and pushing the metatarsal head medially into a bunion.",
    "The 1st metatarsal varus link is right, but normal hallux adduction is about 15–19°."
   ],
@@ -1854,16 +1856,16 @@ window.NPTE_EXAM = [
   "topic": "Medial arch support",
   "stem": "A 58-year-old has a progressively flattening arch. On single-limb heel raise she cannot invert the calcaneus. Which explanation BEST accounts for the collapse?",
   "options": [
-   "Varus drift of the hallux, often associated with other kinetic chain factors such as pronation",
-   "Valgus drift beyond the normal 15–19° of hallux adduction, often with valgus of the 1st metatarsal at the TMT",
-   "Valgus drift beyond the normal 15–19° of hallux adduction, often with varus of the 1st metatarsal at the TMT",
-   "Valgus drift beyond the normal 30–35° of hallux adduction, often with varus of the 1st metatarsal at the TMT"
+   "Fibularis longus failure; the spring ligament normally supports the head of the talus",
+   "Posterior tibialis and spring ligament failure; the talar head dorsiflexes and abducts",
+   "Posterior tibialis and spring ligament failure; the talar head plantarflexes and adducts",
+   "Posterior tibialis failure; the spring ligament mainly supports the lateral longitudinal arch"
   ],
   "rationale": [
+   "The spring ligament supporting the talar head is right, but failure to invert the heel during a heel raise points to the posterior tibialis.",
    "Posterior tibialis dysfunction is right, but in weight-bearing pronation the talus adducts and plantarflexes.",
-   "Posterior tibialis dysfunction is right, but the spring ligament supports the talar head and the medial arch.",
    "Correct. The posterior tibialis gives the strongest and most consistent dynamic support to the medial arch. The spring ligament supports the talar head. When both fail, the head drops medially and plantarly.",
-   "The spring ligament supporting the talar head is right, but failure to invert the heel during a heel raise points to the posterior tibialis."
+   "Posterior tibialis dysfunction is right, but the spring ligament supports the talar head and the medial arch."
   ],
   "answer": 2,
   "explanation": "The spring (plantar calcaneonavicular) ligament runs from the sustentaculum tali to the inferior navicular, beneath the talar head, and blends with the deltoid and bifurcate ligaments. Together with the posterior tibialis it is a key medial arch stabilizer. In acquired flatfoot both often fail."
@@ -1894,18 +1896,18 @@ window.NPTE_EXAM = [
   "topic": "Rearfoot measurement",
   "stem": "A PT measures rearfoot motion by bisecting the posterior calcaneus and the posterior leg. Which statement about this measurement is MOST accurate?",
   "options": [
-   "Fibularis longus failure; the spring ligament normally supports the head of the talus",
-   "Posterior tibialis and spring ligament failure; the talar head dorsiflexes and abducts",
-   "Posterior tibialis and spring ligament failure; the talar head plantarflexes and adducts",
-   "Posterior tibialis failure; the spring ligament mainly supports the lateral longitudinal arch"
+   "Supination is measured directly at the talus; inversion exceeds eversion about 2:1",
+   "Pronation can't be measured directly; normal calcaneal inversion 5–10° and eversion 20–30°",
+   "Pronation can be measured directly with a goniometer; total calcaneal arc is about 25–40°",
+   "Pronation can't be measured directly; normal calcaneal inversion 20–30° and eversion 5–10°"
   ],
   "rationale": [
-   "The total arc is right, but pronation is tri-planar and cannot be measured directly.",
    "The 2:1 ratio is right, but supination cannot be measured directly. Calcaneal inversion is measured instead.",
-   "Correct. Tri-planar pronation and supination cannot be captured with one goniometer. The frontal-plane calcaneal component is the clinical stand-in, and inversion is about twice eversion.",
-   "The bisection method is right, but the values are reversed. Inversion is the larger motion."
+   "The bisection method is right, but the values are reversed. Inversion is the larger motion.",
+   "The total arc is right, but pronation is tri-planar and cannot be measured directly.",
+   "Correct. Tri-planar pronation and supination cannot be captured with one goniometer. The frontal-plane calcaneal component is the clinical stand-in, and inversion is about twice eversion."
   ],
-  "answer": 2,
+  "answer": 3,
   "explanation": "Measurement assumes subtalar neutral is 0°. Normal calcaneal inversion is 20–30° and eversion 5–10° (total 25–40°). The rearfoot influences the forefoot and the forefoot influences the rearfoot, so rearfoot and forefoot varus and valgus are measured relative to neutral."
  },
  {
@@ -1914,18 +1916,18 @@ window.NPTE_EXAM = [
   "topic": "Forefoot–rearfoot compensation",
   "stem": "With the subtalar joint held in neutral in prone, a patient's forefoot is inverted relative to the rearfoot (forefoot varus). In standing, which compensation is MOST likely?",
   "options": [
-   "The calcaneocuboid joint, whose reciprocal saddle surfaces increase its mobility",
-   "The long plantar ligament, spanning the calcaneus and cuboid to the 2nd–4th metatarsal bases",
-   "The spring ligament; the long plantar ligament spans to the 2nd–4th metatarsal bases",
-   "The long plantar ligament, whose main role is to support the medial longitudinal arch"
+   "Compensatory subtalar supination, since the forefoot position influences the rearfoot",
+   "Compensatory subtalar pronation, because this alignment is called forefoot valgus",
+   "Compensatory subtalar pronation to lower the medial forefoot, with leg IR",
+   "Compensatory subtalar pronation to lower the medial forefoot, with leg ER"
   ],
   "rationale": [
+   "Forefoot position influencing the rearfoot is right, but an inverted forefoot is compensated by rearfoot pronation.",
    "Rearfoot pronation as the compensation is right, but an inverted forefoot relative to the rearfoot is forefoot varus. Forefoot valgus is usually compensated by supination.",
    "Correct. An inverted forefoot leaves the medial side off the ground. The rearfoot everts (pronates) to lower it, and weight-bearing pronation brings tibial IR up the chain.",
-   "Forefoot position influencing the rearfoot is right, but an inverted forefoot is compensated by rearfoot pronation.",
    "Subtalar pronation is right, but weight-bearing pronation internally rotates the leg."
   ],
-  "answer": 1,
+  "answer": 2,
   "explanation": "Forefoot varus is compensated by rearfoot pronation, and forefoot valgus by rearfoot supination. Rearfoot varus is typically compensated by subtalar pronation to get the medial foot down. These compensations explain many chains of pain from the foot upward."
  },
  {
@@ -1934,18 +1936,18 @@ window.NPTE_EXAM = [
   "topic": "Muscle line of pull",
   "stem": "Based on its tendon's position relative to the ankle and foot axes, which statement BEST describes the function of the fibularis (peroneus) longus?",
   "options": [
-   "Supination is measured directly at the talus; inversion exceeds eversion about 2:1",
-   "Pronation can't be measured directly; normal calcaneal inversion 5–10° and eversion 20–30°",
-   "Pronation can be measured directly with a goniometer; total calcaneal arc is about 25–40°",
-   "Pronation can't be measured directly; normal calcaneal inversion 20–30° and eversion 5–10°"
+   "Posterior to the talocrural and lateral to the subtalar axis; it plantarflexes the 1st ray",
+   "Anterior to the talocrural and lateral to the subtalar axis; it plantarflexes the 1st ray",
+   "Posterior to the talocrural and medial to the subtalar axis; it plantarflexes the 1st ray",
+   "Posterior to the talocrural and lateral to the subtalar axis; it dorsiflexes the 1st ray"
   ],
   "rationale": [
-   "Passing posterior to the talocrural axis is right, but it passes lateral to the subtalar axis, so it everts.",
-   "Plantarflexion and eversion are right, but it pulls the 1st ray into plantarflexion.",
+   "Correct. Its path behind the lateral malleolus and under the cuboid gives it eversion and plantarflexion. Its insertion holds the 1st ray down against the ground for push-off.",
    "Plantarflexion of the 1st ray is right, but the fibularis longus passes posterior to the talocrural axis and plantarflexes the ankle. The fibularis tertius is the dorsiflexing evertor.",
-   "Correct. Its path behind the lateral malleolus and under the cuboid gives it eversion and plantarflexion. Its insertion holds the 1st ray down against the ground for push-off."
+   "Passing posterior to the talocrural axis is right, but it passes lateral to the subtalar axis, so it everts.",
+   "Plantarflexion and eversion are right, but it pulls the 1st ray into plantarflexion."
   ],
-  "answer": 3,
+  "answer": 0,
   "explanation": "No ankle or foot muscle acts on one joint in isolation. A tendon's position relative to each axis tells you its function. Posterior to the talocrural axis means plantarflexion and anterior means dorsiflexion. Medial to the subtalar axis means inversion and lateral means eversion. The fibularis longus and tibialis anterior form a 'stirrup' under the medial midfoot."
  },
  {
@@ -1954,10 +1956,10 @@ window.NPTE_EXAM = [
   "topic": "Medial arch support",
   "stem": "Which statement about the posterior tibialis is MOST accurate?",
   "options": [
-   "Compensatory subtalar supination, since the forefoot position influences the rearfoot",
-   "Compensatory subtalar pronation, because this alignment is called forefoot valgus",
-   "Compensatory subtalar pronation to lower the medial forefoot, with leg IR",
-   "Compensatory subtalar pronation to lower the medial forefoot, with leg ER"
+   "It passes medial to the subtalar axis and posterior to the talocrural axis, but it is a minor arch support",
+   "It decelerates pronation eccentrically, because it lies lateral to the subtalar axis",
+   "It plantarflexes and inverts, braces the medial arch, and eccentrically decelerates pronation in loading response",
+   "It supports the medial arch and dorsiflexes the ankle, because it passes anterior to the talocrural axis"
   ],
   "rationale": [
    "The axis relationships are right, but the posterior tibialis is the strongest and most consistent dynamic medial arch support.",
@@ -1974,10 +1976,10 @@ window.NPTE_EXAM = [
   "topic": "Subtalar motion: NWB vs WB",
   "stem": "A patient pronates the foot while seated, then pronates it again while standing. Which statement CORRECTLY contrasts the two?",
   "options": [
-   "Posterior to the talocrural and lateral to the subtalar axis; it plantarflexes the 1st ray",
-   "Anterior to the talocrural and lateral to the subtalar axis; it plantarflexes the 1st ray",
-   "Posterior to the talocrural and medial to the subtalar axis; it plantarflexes the 1st ray",
-   "Posterior to the talocrural and lateral to the subtalar axis; it dorsiflexes the 1st ray"
+   "Seated, the calcaneus everts, abducts, and dorsiflexes; standing, the calcaneus everts while the talus adducts and plantarflexes and the leg internally rotates",
+   "Seated, the calcaneus inverts, adducts, and plantarflexes; standing, the calcaneus everts while the talus adducts and plantarflexes",
+   "Seated, the calcaneus everts, abducts, and dorsiflexes; standing, the calcaneus everts, abducts, and dorsiflexes and the leg internally rotates",
+   "Seated, the calcaneus everts, abducts, and dorsiflexes; standing, the calcaneus everts while the talus abducts and dorsiflexes"
   ],
   "rationale": [
    "Correct. In non-weight-bearing motion the distal segment (calcaneus) moves on the talus. In weight bearing the calcaneus can only evert on the ground, so the talus does the transverse- and sagittal-plane parts and carries the leg into IR.",
@@ -2007,5 +2009,677 @@ window.NPTE_EXAM = [
   ],
   "answer": 1,
   "explanation": "Dorsiflexion can be limited by the gastrocnemius (knee extended), the soleus or capsule (knee flexed), or anterior impingement. Plantarflexion can be limited by anterior muscles, the capsule, or posterior impingement. Use the pain location and end feel to tell bony blocks from soft-tissue limits."
+ },
+ {
+  "id": 101,
+  "joint": "Knee",
+  "topic": "Distal femur anatomy",
+  "set": "Exam 2 review",
+  "stem": "The medial femoral condyle has a longer tibial articular surface than the lateral condyle, and the lateral facet of the trochlear groove is larger and projects farther anteriorly than the medial facet. Which pairing of each feature with its clinical implication is MOST accurate?",
+  "options": [
+   "The longer medial tibial surface drives the screw-home mechanism; the prominent lateral trochlear facet pushes the patella into lateral tracking",
+   "The longer LATERAL tibial surface drives the screw-home mechanism; the prominent lateral trochlear facet buttresses the patella against lateral displacement",
+   "The longer medial tibial surface drives the screw-home mechanism; the prominent lateral trochlear facet buttresses the patella against lateral displacement",
+   "The longer medial tibial surface makes the medial meniscus more mobile; the prominent lateral trochlear facet buttresses the patella against lateral displacement"
+  ],
+  "rationale": [
+   "The screw-home link is right, but a tall lateral facet resists lateral displacement. A flattened (dysplastic) lateral facet is what allows lateral tracking and instability.",
+   "The lateral buttress is right, but it is the medial condyle that has the longer tibial articular surface.",
+   "Correct. In terminal extension the lateral articulation runs out of surface first while the medial side keeps moving, which rotates the tibia (screw-home). The tall lateral trochlear facet is a bony block to lateral patellar translation.",
+   "The lateral buttress is right, but the medial meniscus is the less mobile one because of its attachments. The longer medial surface matters for screw-home rotation."
+  ],
+  "answer": 2,
+  "explanation": "Condyle shape explains two exam favorites. The longer medial condyle surface produces obligatory tibial ER in the last degrees of open-chain extension (femoral IR in closed chain), locking the knee. The higher, more anterior lateral trochlear facet resists the lateral pull of the quadriceps on the patella; trochlear dysplasia removes that buttress."
+ },
+ {
+  "id": 102,
+  "joint": "Knee",
+  "topic": "Joint capsule",
+  "set": "Exam 2 review",
+  "stem": "During a medial parapatellar approach for a TKA, the surgeon must divide the structures that reinforce the ANTERIOR knee joint capsule. Which list names them?",
+  "options": [
+   "Quadriceps tendon, patella, patellar tendon, and the medial and lateral patellar retinacula",
+   "Quadriceps tendon, with the oblique and arcuate popliteal ligaments",
+   "Patellar tendon, with the MCL and LCL",
+   "Patellar retinacula, with the pes anserinus tendons"
+  ],
+  "rationale": [
+   "Correct. The extensor mechanism and its retinacular fibers form the anterior wall of the capsule.",
+   "The quadriceps tendon is right, but the oblique and arcuate popliteal ligaments reinforce the posterior capsule.",
+   "The patellar tendon is right, but the collateral ligaments sit medially and laterally, and the LCL is extracapsular.",
+   "The retinacula are right, but the pes anserinus crosses the medial knee, not the anterior capsule."
+  ],
+  "answer": 0,
+  "explanation": "The knee capsule is large and thin, so nearby tendons and ligaments reinforce it. Anterior: quadriceps tendon, patella, patellar tendon, retinacula. Medial: MCL and medial retinaculum, posteromedial capsule (semimembranosus expansions). Lateral: LCL, iliotibial band, lateral retinaculum. Posterior: oblique popliteal ligament (from the semimembranosus), arcuate popliteal ligament, popliteus, and the gastrocnemius heads."
+ },
+ {
+  "id": 103,
+  "joint": "Knee",
+  "topic": "MPFL",
+  "set": "Exam 2 review",
+  "stem": "A 17-year-old has a first-time lateral patellar dislocation, and MRI shows a torn medial patellofemoral ligament (MPFL). Which statement about the MPFL and the structures that help it is MOST accurate?",
+  "options": [
+   "It supplies about 50–60% of the passive restraint to lateral patellar translation, mostly beyond 60° of flexion",
+   "It is the primary restraint to MEDIAL patellar translation, assisted by the vastus lateralis",
+   "It runs from the medial femur near the adductor tubercle to the superomedial patella, assisted mainly by the vastus lateralis",
+   "It supplies about 50–60% of the passive restraint to lateral patellar translation, mostly at 0–30° of flexion, and the VMO blends into it to add active restraint"
+  ],
+  "rationale": [
+   "The 50–60% figure is right, but the MPFL is most important at 0–30°. In deeper flexion the trochlear groove contains the patella.",
+   "Being a primary patellar restraint is right, but the MPFL resists lateral translation, and the vastus lateralis pulls the patella laterally.",
+   "The attachments are right, but the active partner is the VMO. The vastus lateralis adds lateral pull.",
+   "Correct. The MPFL matters most before the patella seats in the trochlea. VMO fibers attach to it and pull medially and obliquely, and the adductor magnus tendon (the VMO's origin) anchors the system."
+  ],
+  "answer": 3,
+  "explanation": "Stabilizers against lateral patellar subluxation. Passive: MPFL (primary, early flexion), medial retinaculum and medial patellomeniscal ligament, and the lateral trochlear facet. Active: the VMO, whose oblique fibers blend into the MPFL, anchored by the adductor magnus. That is why VMO strengthening and MPFL reconstruction are the main conservative and surgical options."
+ },
+ {
+  "id": 104,
+  "joint": "Knee",
+  "topic": "Quadriceps moment arm",
+  "set": "Exam 2 review",
+  "stem": "A patient performs seated long-arc quads (90° to 0°) with a 5-lb ankle weight. At what point must the quadriceps produce the MOST force, and why?",
+  "options": [
+   "Near full extension, because the patella gives the quadriceps its largest moment arm there",
+   "Near full extension; the weight's external flexion torque is greatest there while the quadriceps moment arm is shrinking",
+   "Around 45–60° of flexion, because the quadriceps moment arm is greatest there",
+   "At 90° of flexion, because the weight's moment arm is greatest with the knee bent"
+  ],
+  "rationale": [
+   "Near full extension is right, but the quadriceps moment arm peaks around 20–60° of flexion and gets smaller toward 0°. That is part of why force demand is so high.",
+   "Correct. With the leg horizontal the weight has its longest moment arm. The patella-assisted quadriceps moment arm peaks around 20–60° and falls toward 0°, so force demand is highest at terminal extension.",
+   "The moment arm peak in mid-range is right, but a longer lever means less force is needed. The force peak follows the external torque, which is greatest at 0°.",
+   "The idea that the weight's moment arm sets the demand is right, but at 90° the leg hangs vertically and that moment arm is near zero."
+  ],
+  "answer": 1,
+  "explanation": "Open chain: external torque = weight × perpendicular distance from the knee axis, which is greatest at 0°. The patella increases the quadriceps moment arm most in roughly 20–60° of flexion. Combining the two, terminal extension needs the most quadriceps force, which is why extensor lag shows up there after injury or surgery. In closed chain the external flexion torque, and quadriceps demand, rise as the knee flexes."
+ },
+ {
+  "id": 105,
+  "joint": "Knee",
+  "topic": "Knee rotators",
+  "set": "Exam 2 review",
+  "stem": "With the patient seated and the knee flexed 90°, the PT resists tibial INTERNAL rotation. Which group contains ONLY muscles that internally rotate the flexed knee?",
+  "options": [
+   "Semitendinosus, semimembranosus, gracilis, and biceps femoris",
+   "Sartorius, gracilis, popliteus, and tensor fasciae latae",
+   "Semitendinosus, semimembranosus, sartorius, gracilis, and popliteus",
+   "Popliteus and biceps femoris"
+  ],
+  "rationale": [
+   "The first three are right, but the biceps femoris is the main external rotator of the flexed knee.",
+   "The first three are right, but the TFL (via the iliotibial band) is a weak external rotator.",
+   "Correct. The medial hamstrings, the pes anserinus muscles, and the popliteus all pass medial or posteromedial to the rotation axis and internally rotate the tibia.",
+   "The popliteus is right (it internally rotates the tibia in open chain), but the biceps femoris externally rotates."
+  ],
+  "answer": 2,
+  "explanation": "Knee axial rotation is available only when the knee is flexed and is greatest near 90°. Internal rotators: semitendinosus, semimembranosus, sartorius, gracilis, popliteus. External rotators: biceps femoris (primary), with a small contribution from the TFL through the iliotibial band. In closed chain the popliteus externally rotates the femur to unlock the knee."
+ },
+ {
+  "id": 106,
+  "joint": "Knee",
+  "topic": "Weight-bearing knee extensors",
+  "set": "Exam 2 review",
+  "stem": "After a femoral nerve injury, a patient's quadriceps are very weak, yet in standing they can still pull the knee into extension. Which muscles can extend the knee in WEIGHT BEARING, and how?",
+  "options": [
+   "Gluteus maximus and soleus; they pull the femur and the tibia posteriorly over the fixed foot",
+   "Gluteus maximus and gastrocnemius; both pull the femur and tibia posteriorly",
+   "Soleus and tibialis anterior; both control the tibia over the planted foot",
+   "Only the quadriceps, since they are the only muscles crossing the front of the knee"
+  ],
+  "rationale": [
+   "Correct. In closed chain, hip extension draws the femur back and the soleus draws the tibia back. Both move the knee toward extension without crossing it anteriorly.",
+   "The gluteus maximus is right, but the gastrocnemius crosses the back of the knee and flexes it.",
+   "The soleus is right, but the tibialis anterior pulls the tibia forward over the foot, which flexes the knee in closed chain.",
+   "The quadriceps being the only anterior knee crossers is right, but in closed chain one-joint muscles at the hip and ankle can extend the knee indirectly."
+  ],
+  "answer": 0,
+  "explanation": "Closed-chain knee extensors include the quadriceps plus muscles that move the segments above and below the knee: the gluteus maximus (femur back) and the soleus (tibia back). Patients with quadriceps weakness often rely on these, or lock the knee by leaning forward to move the line of gravity in front of the knee."
+ },
+ {
+  "id": 107,
+  "joint": "Knee",
+  "topic": "Patella baja",
+  "set": "Exam 2 review",
+  "stem": "After a patellar tendon graft harvest, a patient develops patella baja (a low-riding patella). Which clinical implications are MOST expected?",
+  "options": [
+   "Limited knee flexion, with a higher risk of lateral patellar dislocation near full extension",
+   "Higher patellofemoral compression and a larger quadriceps moment arm",
+   "Altered trochlear engagement, with the patella reaching the groove later in flexion",
+   "Limited knee flexion, higher patellofemoral compression, and a less efficient quadriceps lever with possible extensor lag"
+  ],
+  "rationale": [
+   "Limited flexion is right, but instability near extension is the problem in patella alta, which reaches the groove late.",
+   "Higher compression is right, but a low patella reduces the extensor mechanism's efficiency rather than improving it.",
+   "Altered engagement is right, but a low patella engages early. Late engagement describes patella alta.",
+   "Correct. A low patella engages the trochlea early and stays tightly compressed, which restricts flexion, loads the cartilage, and weakens the extensor mechanism's leverage."
+  ],
+  "answer": 3,
+  "explanation": "Patellar height is often expressed as the Insall-Salvati ratio (patellar tendon length ÷ patellar length): about 1.0 is normal, below 0.8 suggests baja, and above 1.2 suggests alta. Baja (often from scarring after surgery) limits flexion and raises patellofemoral compression and pain. Alta delays engagement in the groove, so stability near extension depends on soft tissue and dislocation risk rises."
+ },
+ {
+  "id": 108,
+  "joint": "Knee",
+  "topic": "Two-joint muscles",
+  "set": "Exam 2 review",
+  "stem": "In prone, a patient's knee flexion force drops sharply when they try to flex the knee fully while also extending the hip. In supine, a straight-leg raise stops at 50°. Which pair of explanations is MOST accurate?",
+  "options": [
+   "Prone: passive insufficiency of the hamstrings. Supine: active insufficiency of the hamstrings",
+   "Prone: active insufficiency of the hamstrings (hip extension + knee flexion). Supine: passive insufficiency of the hamstrings (hip flexion + knee extension)",
+   "Prone: active insufficiency of the hamstrings. Supine: passive insufficiency of the rectus femoris",
+   "Prone: active insufficiency of the rectus femoris. Supine: passive insufficiency of the hamstrings"
+  ],
+  "rationale": [
+   "Both findings involve the hamstrings, which is right, but the labels are reversed. Shortened across both joints is active insufficiency; lengthened across both is passive.",
+   "Correct. The hamstrings are shortened across both joints in the prone position, so they cannot generate much force. In a straight-leg raise they are stretched across both joints and limit the motion.",
+   "The prone explanation is right, but a straight-leg raise slackens the rectus femoris (hip flexion + knee extension). It stretches the hamstrings.",
+   "The supine explanation is right, but the rectus femoris extends the knee. Weak knee flexion in this position comes from the shortened hamstrings."
+  ],
+  "answer": 1,
+  "explanation": "Hamstrings: active insufficiency with hip extension + knee flexion; passive insufficiency with hip flexion + knee extension (SLR). Rectus femoris: active insufficiency with hip flexion + knee extension; passive insufficiency with hip extension + knee flexion (Ely test)."
+ },
+ {
+  "id": 109,
+  "joint": "Knee",
+  "topic": "Patellofemoral compression",
+  "set": "Exam 2 review",
+  "stem": "A runner with patellofemoral pain is filmed doing a single-leg squat. Which finding would MOST increase compression on the LATERAL patellofemoral joint?",
+  "options": [
+   "Deeper knee flexion with the femur held in neutral rotation",
+   "Femoral ER with genu varum",
+   "Femoral IR and adduction with a contralateral pelvic drop (dynamic valgus)",
+   "A forward trunk lean that moves the center of mass toward the knee"
+  ],
+  "rationale": [
+   "Deeper weight-bearing flexion does raise overall patellofemoral compression, but with neutral femoral rotation it does not shift load toward the lateral facet.",
+   "Frontal- and transverse-plane alignment does change patellar load, but femoral ER and varum reduce the Q-angle and lateral loading.",
+   "Correct. When the femur rotates internally under a patella held by the quadriceps, the lateral trochlea presses into the lateral facet. Valgus also widens the Q-angle and the lateral pull.",
+   "Trunk position does change knee load, but leaning forward shortens the knee flexion moment arm and lowers quadriceps demand and patellofemoral compression."
+  ],
+  "answer": 2,
+  "explanation": "Sagittal plane: patellofemoral compression rises with quadriceps force and with weight-bearing knee flexion. Frontal and transverse planes: femoral IR and adduction (often from weak hip abductors and external rotators, or excessive pronation) rotate the trochlea under the patella and increase lateral facet stress. Assess hip and foot together in patellofemoral pain."
+ },
+ {
+  "id": 110,
+  "joint": "Ankle & Foot",
+  "topic": "Retinacula",
+  "set": "Exam 2 review",
+  "stem": "After a forced dorsiflexion injury, a skier feels tendons 'snap' over the lateral malleolus, and the superior fibular (peroneal) retinaculum is torn. Which statement about the ankle retinacula is MOST accurate?",
+  "options": [
+   "The fibular retinacula hold the fibularis longus and brevis tendons behind the lateral malleolus; the extensor retinacula keep the anterior tendons from bowstringing",
+   "The fibular retinacula hold the fibularis tendons behind the lateral malleolus; the extensor retinacula hold the tibialis posterior behind the medial malleolus",
+   "The extensor retinacula keep the anterior tendons from bowstringing; the fibular retinacula hold the fibularis tendons in front of the lateral malleolus",
+   "The superior fibular retinaculum attaches to the lateral malleolus and is a primary ligamentous restraint to ankle inversion"
+  ],
+  "rationale": [
+   "Correct. Retinacula are thickened bands of deep fascia that hold tendons against bone so their pull stays efficient as the ankle moves.",
+   "The fibular retinacula are right, but the tibialis posterior is held by the flexor retinaculum over the tarsal tunnel.",
+   "The extensor retinacula are right, but the fibularis tendons run behind the lateral malleolus, in the retromalleolar groove.",
+   "The attachment is right, but retinacula stabilize tendons, not joints. The ATFL and CFL resist inversion."
+  ],
+  "answer": 0,
+  "explanation": "Extensor retinacula (superior and inferior): hold the tibialis anterior, EHL, EDL, and fibularis tertius against the ankle during dorsiflexion. Fibular retinacula (superior and inferior): hold the fibularis longus and brevis behind the lateral malleolus; a superior tear lets the tendons sublux. Flexor retinaculum: roofs the tarsal tunnel (tibialis posterior, FDL, posterior tibial vessels, tibial nerve, FHL)."
+ },
+ {
+  "id": 111,
+  "joint": "Ankle & Foot",
+  "topic": "Sinus tarsi & tarsal canal",
+  "set": "Exam 2 review",
+  "stem": "After an inversion sprain, a patient is tender in the soft depression just anterior and inferior to the lateral malleolus. Which description of this region and the ligaments in it is MOST accurate?",
+  "options": [
+   "It is the sinus tarsi, the lateral opening of the tarsal canal; the interosseous ligament lies in the sinus tarsi and the cervical ligament lies deep in the canal",
+   "It is the tarsal canal, which separates the posterior facet from the anterior and middle facets and opens only on the medial side of the hindfoot",
+   "It is the sinus tarsi, which lies medially below the sustentaculum tali and contains the spring ligament",
+   "It is the sinus tarsi, the lateral opening of the tarsal canal; the cervical ligament lies in the sinus tarsi and the interosseous talocalcaneal ligament lies within the canal"
+  ],
+  "rationale": [
+   "The sinus tarsi is right, but the positions are reversed. The cervical ligament is the lateral one in the sinus; the interosseous ligament is in the canal.",
+   "The canal separating the facets is right, but its medial end lies behind the sustentaculum tali and its wide lateral opening is the sinus tarsi, where this patient is tender.",
+   "The sustentaculum is a real landmark (it marks the medial end of the tarsal canal), but the sinus tarsi is lateral, and the spring ligament lies on the plantar-medial midfoot.",
+   "Correct. The tarsal canal runs obliquely between the posterior facet and the anterior-middle facets and opens laterally as the sinus tarsi. The cervical ligament sits laterally in the sinus; the interosseous ligament fills the canal."
+  ],
+  "answer": 3,
+  "explanation": "The cervical and interosseous ligaments are the strongest connections between the talus and calcaneus. The cervical ligament (calcaneal neck to talar neck, in the sinus tarsi) becomes taut in inversion. Together they bind the talus to the calcaneus and help stabilize the subtalar joint as it moves toward end-range supination, the rigid 'locked' foot used at push-off. Sinus tarsi pain is common after lateral sprains."
+ },
+ {
+  "id": 112,
+  "joint": "Ankle & Foot",
+  "topic": "Axis orientation",
+  "set": "Exam 2 review",
+  "stem": "An axis of motion lies in the sagittal plane and is inclined 35° superior from a pure anterior-posterior (A-P) axis. What are the primary and secondary motions around this axis?",
+  "options": [
+   "Primary: abduction/adduction. Secondary: inversion/eversion",
+   "Primary: inversion/eversion. Secondary: abduction/adduction",
+   "Primary: inversion/eversion. Secondary: dorsiflexion/plantarflexion",
+   "Primary: dorsiflexion/plantarflexion. Secondary: abduction/adduction"
+  ],
+  "rationale": [
+   "Both motions are right, but the ranking is reversed. Abduction/adduction would dominate only if the axis were more than 45° from A-P (closer to vertical).",
+   "Correct. Motion happens in the plane perpendicular to the axis. An axis 35° from A-P (and 55° from vertical) is closer to A-P, so frontal-plane motion dominates and transverse-plane motion is secondary.",
+   "The primary motion is right, but an axis that lies in the sagittal plane has no medial-lateral component, so dorsiflexion/plantarflexion is minimal.",
+   "Abduction/adduction as the secondary motion is right, but dorsiflexion/plantarflexion needs a medial-lateral axis."
+  ],
+  "answer": 1,
+  "explanation": "A-P axis → frontal-plane motion (inversion/eversion). Vertical axis → transverse-plane motion (abduction/adduction). Medial-lateral axis → sagittal-plane motion (DF/PF). The closer an oblique axis is to one cardinal axis, the more its motion resembles that axis's plane. The subtalar axis (about 42° up and 16° medial) gives nearly equal inversion/eversion and abduction/adduction with little DF/PF."
+ },
+ {
+  "id": 113,
+  "joint": "Ankle & Foot",
+  "topic": "Rearfoot varus",
+  "set": "Exam 2 review",
+  "stem": "In prone subtalar neutral, a patient's calcaneus is inverted relative to the leg (rearfoot varus). What do you expect in WEIGHT BEARING, and which orthotic approach fits?",
+  "options": [
+   "Excessive subtalar pronation; a lateral (valgus) rearfoot post to block it",
+   "Compensatory subtalar supination with a high arch; a medial (varus) rearfoot post",
+   "Excessive or prolonged subtalar pronation to bring the heel and medial foot to the ground; a medial (varus) rearfoot post",
+   "No compensation, because the deformity is only present in non-weight bearing"
+  ],
+  "rationale": [
+   "The compensation is right, but a lateral wedge tilts the heel further into eversion. A medial post is used.",
+   "The medial post is right, but an inverted heel is compensated by pronation, not supination.",
+   "Correct. The inverted calcaneus must evert to reach the floor, so the subtalar joint over-pronates. A medial rearfoot post brings the ground up to the heel so less compensatory pronation is needed.",
+   "Measuring in prone subtalar neutral is right, but a structural varus shows up in standing as compensatory pronation."
+  ],
+  "answer": 2,
+  "explanation": "Rearfoot varus: calcaneus inverted relative to the tibia with the subtalar joint in neutral. In stance it compensates with subtalar pronation, which brings tibial IR and possible medial knee or patellofemoral stress up the chain. Orthotic logic is to post the deformity: a medial rearfoot post for rearfoot varus, and a medial forefoot post for forefoot varus."
+ },
+ {
+  "id": 114,
+  "joint": "Ankle & Foot",
+  "topic": "Midfoot ligaments",
+  "set": "Exam 2 review",
+  "stem": "Which statement about the ligaments that stabilize the talonavicular and calcaneocuboid joints is MOST accurate?",
+  "options": [
+   "Talonavicular: the spring ligament, whose fibrocartilage surface articulates with the talar head. Calcaneocuboid: the lateral band of the bifurcate ligament and the long and short plantar ligaments",
+   "Talonavicular: the long and short plantar ligaments. Calcaneocuboid: the spring ligament",
+   "Talonavicular: the spring ligament, which is made of elastic tissue. Calcaneocuboid: the long and short plantar ligaments",
+   "Talonavicular: the spring ligament. Calcaneocuboid: the deltoid ligament"
+  ],
+  "rationale": [
+   "Correct. The spring (plantar calcaneonavicular) ligament forms part of the socket for the talar head and is lined with fibrocartilage. The calcaneocuboid joint relies on the bifurcate (lateral band) and plantar ligaments.",
+   "These are the right ligaments for the midfoot, but the pairings are reversed.",
+   "The calcaneocuboid pairing is right, but the spring ligament is not elastic. The name is a misnomer; it is dense connective tissue with a fibrocartilage articular surface.",
+   "The spring ligament is right, but the deltoid is the medial ankle ligament. The calcaneocuboid joint is lateral."
+  ],
+  "answer": 0,
+  "explanation": "Talonavicular stabilizers: spring ligament (sustentaculum tali to navicular), dorsal talonavicular ligament, the medial (calcaneonavicular) band of the bifurcate ligament, and the tibionavicular fibers of the deltoid. Calcaneocuboid stabilizers: the lateral (calcaneocuboid) band of the bifurcate, the dorsal calcaneocuboid ligament, the short plantar ligament, and the long plantar ligament. The spring ligament is unique because it articulates directly with the talar head."
+ },
+ {
+  "id": 115,
+  "joint": "Ankle & Foot",
+  "topic": "Plantar fasciopathy",
+  "set": "Exam 2 review",
+  "stem": "A runner has plantar heel pain that is worst with the first steps in the morning. Which combination of kinetic chain factors is MOST likely contributing?",
+  "options": [
+   "Limited ankle dorsiflexion and excessive pronation, both of which decrease plantar fascia tension",
+   "Excessive ankle dorsiflexion and a rigid, high-arched foot that absorbs load well",
+   "Weak hip abductors, which lower plantar fascia load by reducing femoral IR",
+   "Limited ankle dorsiflexion from a tight gastrocnemius-soleus, excessive or prolonged pronation, and weak hip abductors and external rotators"
+  ],
+  "rationale": [
+   "The two factors are right, but both increase tension on the fascia.",
+   "A rigid high-arched foot can contribute, but it absorbs shock poorly. Limited dorsiflexion, not excessive dorsiflexion, is the risk factor.",
+   "Hip weakness is a contributor, but it increases femoral IR and pronation, which raises fascial load.",
+   "Correct. Each factor raises plantar fascia tension: a tight calf pulls on the calcaneus and forces midfoot compensation, pronation flattens the arch, and hip weakness drives femoral IR and pronation."
+  ],
+  "answer": 3,
+  "explanation": "The plantar fascia is loaded when the arch flattens (pronation) and again in late stance (windlass). Contributors: limited dorsiflexion and calf tightness, excessive or prolonged pronation, hip weakness causing femoral IR and adduction, a rigid cavus foot with poor shock absorption, high body mass, and training-load errors. Treat the whole chain, not just the heel."
+ },
+ {
+  "id": 116,
+  "joint": "Ankle & Foot",
+  "topic": "Posterior compartments",
+  "set": "Exam 2 review",
+  "stem": "After a tibial shaft fracture, a patient develops deep posterior compartment syndrome. Which muscles and neurovascular structures are in this compartment?",
+  "options": [
+   "Gastrocnemius, soleus, and plantaris; the tibial nerve and posterior tibial artery",
+   "Tibialis posterior, FDL, FHL (and popliteus); the tibial nerve and posterior tibial artery",
+   "Tibialis posterior, FDL, and FHL; the deep fibular nerve and anterior tibial artery",
+   "Tibialis posterior and the fibularis longus and brevis; the tibial nerve"
+  ],
+  "rationale": [
+   "The neurovascular structures are right, but these muscles form the superficial posterior compartment.",
+   "Correct. The deep posterior compartment holds the deep flexors and the main neurovascular bundle of the posterior leg (plus the fibular artery).",
+   "The muscles are right, but the deep fibular nerve and anterior tibial artery run in the anterior compartment.",
+   "The tibialis posterior and tibial nerve are right, but the fibularis muscles are in the lateral compartment with the superficial fibular nerve."
+  ],
+  "answer": 1,
+  "explanation": "Superficial posterior: gastrocnemius, soleus, plantaris. Deep posterior: popliteus, tibialis posterior, FDL, FHL, with the tibial nerve, posterior tibial artery and veins, and fibular artery. Behind the medial malleolus the order is 'Tom, Dick, And Very Nervous Harry': tibialis posterior, FDL, artery, vein, nerve, FHL."
+ },
+ {
+  "id": 117,
+  "joint": "Ankle & Foot",
+  "topic": "Plantar muscle layers",
+  "set": "Exam 2 review",
+  "stem": "During dissection of the sole from superficial to deep, which listing matches the four plantar muscle layers?",
+  "options": [
+   "1st: abductor hallucis, FDB, abductor digiti minimi. 2nd: FHB, adductor hallucis, flexor digiti minimi brevis. 3rd: quadratus plantae, lumbricals. 4th: interossei",
+   "1st: quadratus plantae, lumbricals. 2nd: abductor hallucis, FDB, abductor digiti minimi. 3rd: FHB, adductor hallucis, flexor digiti minimi brevis. 4th: interossei",
+   "1st: abductor hallucis, FDB, abductor digiti minimi. 2nd: quadratus plantae, lumbricals. 3rd: FHB, adductor hallucis, flexor digiti minimi brevis. 4th: plantar and dorsal interossei",
+   "1st: abductor hallucis, FDB, abductor digiti minimi. 2nd: quadratus plantae, lumbricals. 3rd: interossei. 4th: FHB, adductor hallucis, flexor digiti minimi brevis"
+  ],
+  "rationale": [
+   "The 1st and 4th layers are right, but the 2nd and 3rd layers are swapped.",
+   "The 3rd and 4th layers are right, but the 1st and 2nd layers are swapped.",
+   "Correct. The 2nd layer also carries the FDL and FHL tendons, and the 4th layer carries the tibialis posterior and fibularis longus tendons.",
+   "The 1st and 2nd layers are right, but the interossei are the deepest (4th) layer."
+  ],
+  "answer": 2,
+  "explanation": "Layer 1 (superficial): abductor hallucis, flexor digitorum brevis, abductor digiti minimi. Layer 2: quadratus plantae and the four lumbricals, with the FDL and FHL tendons. Layer 3: flexor hallucis brevis, adductor hallucis, flexor digiti minimi brevis. Layer 4 (deep): plantar and dorsal interossei, with the tibialis posterior and fibularis longus tendons."
+ },
+ {
+  "id": 118,
+  "joint": "Ankle & Foot",
+  "topic": "Medial plantar nerve",
+  "set": "Exam 2 review",
+  "stem": "A runner is diagnosed with medial plantar nerve entrapment ('jogger's foot'). Which muscles are MOST likely to be weak?",
+  "options": [
+   "Abductor hallucis, FDB, FHB, and the 1st lumbrical",
+   "Abductor hallucis, FDB, FHB, and adductor hallucis",
+   "Abductor hallucis and FDB, plus quadratus plantae and abductor digiti minimi",
+   "FHB and the 1st lumbrical, plus the dorsal interossei"
+  ],
+  "rationale": [
+   "Correct. These four are the medial plantar nerve's muscles, often remembered as LAFF (Lumbrical 1, Abductor hallucis, FDB, FHB).",
+   "The first three are right, but the adductor hallucis is supplied by the lateral plantar nerve.",
+   "The first two are right, but the quadratus plantae and abductor digiti minimi are lateral plantar nerve muscles.",
+   "The first two are right, but all the interossei are supplied by the lateral plantar nerve."
+  ],
+  "answer": 0,
+  "explanation": "The tibial nerve divides under the flexor retinaculum into medial and lateral plantar nerves. Medial plantar (like the median nerve in the hand): abductor hallucis, FDB, FHB, 1st lumbrical, plus sensation to the medial sole and medial 3½ toes. Lateral plantar: quadratus plantae, abductor digiti minimi, flexor digiti minimi brevis, adductor hallucis, lumbricals 2–4, and all interossei."
+ },
+ {
+  "id": 119,
+  "joint": "Ankle & Foot",
+  "topic": "Pronation control",
+  "set": "Exam 2 review",
+  "stem": "During loading response, the subtalar joint pronates and must be decelerated. Which muscle has the greatest moment arm to control foot pronation, and why?",
+  "options": [
+   "Tibialis anterior; as an invertor its subtalar moment arm is longer than the tibialis posterior's",
+   "Fibularis longus; it supports the medial arch by plantarflexing the 1st ray",
+   "Tibialis posterior; its tendon passes lateral to the subtalar axis",
+   "Tibialis posterior; its tendon passes well medial to the subtalar axis and spreads under the midfoot"
+  ],
+  "rationale": [
+   "The tibialis anterior does invert and helps control the foot in loading response, but its subtalar moment arm is smaller than the tibialis posterior's.",
+   "Supporting the 1st ray is right, but it passes lateral to the subtalar axis, so it everts (pronates) rather than resisting pronation.",
+   "The tibialis posterior is right, but it passes medial to the subtalar axis. That is what makes it a supinator.",
+   "Correct. Its distance from the subtalar axis gives it the largest supination lever, so it can eccentrically control pronation and support the medial arch."
+  ],
+  "answer": 3,
+  "explanation": "A muscle's action at the subtalar joint depends on which side of the axis it passes. Medial = supinator (tibialis posterior > tibialis anterior, plus FDL, FHL); lateral = pronator (fibularis longus and brevis, fibularis tertius). Tibialis posterior dysfunction removes the main dynamic brake on pronation and leads to acquired flatfoot."
+ },
+ {
+  "id": 120,
+  "joint": "Hip",
+  "topic": "Transverse acetabular ligament",
+  "set": "Exam 2 review",
+  "stem": "A 7-year-old with a femoral neck fracture is at risk for avascular necrosis. Which structure spans the inferior acetabular notch, and why is the structure passing beneath it clinically important?",
+  "options": [
+   "The transverse acetabular ligament; the obturator nerve passes beneath it to supply the femoral head",
+   "The transverse acetabular ligament; the ligamentum teres passes beneath it carrying the artery of the ligamentum teres, a meaningful femoral head supply in children",
+   "The acetabular labrum; the ligamentum teres passes beneath it and is the main blood supply to the adult femoral head",
+   "The ischiofemoral ligament; the artery of the ligamentum teres passes beneath it"
+  ],
+  "rationale": [
+   "The transverse acetabular ligament is right, but what passes beneath it is the ligamentum teres and its artery, usually a branch of the obturator artery.",
+   "Correct. The transverse acetabular ligament completes the acetabular ring across the notch. The foveal artery (usually a branch of the obturator artery) runs in the ligamentum teres beneath it.",
+   "The ligamentum teres is right, but the labrum stops at the notch, where the transverse acetabular ligament takes over. In adults the circumflex arteries are the main supply.",
+   "The artery of the ligamentum teres is right, but the ischiofemoral ligament is a posterior capsular ligament, not the bridge across the notch."
+  ],
+  "answer": 1,
+  "explanation": "The labrum and the transverse acetabular ligament together make a complete ring around the socket. The ligamentum teres runs from the notch region to the fovea and carries the foveal artery. It contributes significantly to femoral head blood flow in children but only a little in adults, where the medial and lateral circumflex retinacular vessels dominate (see the femoral neck fracture question)."
+ },
+ {
+  "id": 121,
+  "joint": "Hip",
+  "topic": "Angle of inclination",
+  "set": "Exam 2 review",
+  "stem": "A patient has a decreased angle of inclination (coxa vara, 110°) on the RIGHT and a normal 125° on the left. Which leg will appear shorter, and why?",
+  "options": [
+   "The left leg; a normal neck angle gives less vertical height than a varus angle",
+   "The right leg; the varus angle also shortens the hip abductor moment arm",
+   "The right leg; the more horizontal femoral neck lowers the femoral head's height above the shaft, functionally shortening the limb",
+   "Neither; inclination changes hip joint loading but not limb length"
+  ],
+  "rationale": [
+   "The idea that neck angle changes limb length is right, but a varus angle lowers the head and shortens the limb.",
+   "The shorter right leg is right, but coxa vara moves the greater trochanter away from the head and lengthens the abductor moment arm.",
+   "Correct. Coxa vara drops the head closer to the level of the greater trochanter, so the right limb is shorter.",
+   "The change in joint loading is right (more neck bending, less compression in vara), but the neck angle also changes how high the head sits, which changes limb length."
+  ],
+  "answer": 2,
+  "explanation": "Normal adult inclination is about 125° (about 150° in infants). Coxa vara (lower angle): shorter limb, longer abductor moment arm, more bending stress across the neck, less joint compression. Coxa valga (higher angle): longer limb, shorter abductor moment arm, more compression, less stability. Check both when a patient has an apparent leg-length difference."
+ },
+ {
+  "id": 122,
+  "joint": "Hip",
+  "topic": "Hip ligaments",
+  "set": "Exam 2 review",
+  "stem": "Which pairing of hip capsular ligaments with the motions they resist is MOST accurate?",
+  "options": [
+   "Iliofemoral: extension and ER. Pubofemoral: abduction, extension, and ER. Ischiofemoral: IR, extension, and abduction",
+   "Iliofemoral: flexion and IR. Pubofemoral: abduction, extension, and ER",
+   "Iliofemoral: extension and ER. Pubofemoral: adduction and flexion",
+   "Iliofemoral: extension and ER. Ischiofemoral: ER and flexion"
+  ],
+  "rationale": [
+   "Correct. All three spiral around the neck and wind tight in extension, which is why extension (with abduction and IR) is the close-packed position.",
+   "The pubofemoral pairing is right, but the iliofemoral (Y) ligament resists extension and ER.",
+   "The iliofemoral pairing is right, but the pubofemoral ligament resists abduction, extension, and ER.",
+   "The iliofemoral pairing is right, but the ischiofemoral ligament resists IR (with extension and abduction)."
+  ],
+  "answer": 0,
+  "explanation": "Iliofemoral (Y ligament of Bigelow, AIIS to intertrochanteric line): strongest; extension and ER. Pubofemoral (superior pubic ramus, blending with the iliofemoral): abduction, extension, ER. Ischiofemoral (posterior acetabulum to the greater trochanter): IR, extension, abduction. All tighten in extension; flexion slackens them, which is why the hip is less stable in flexion with adduction."
+ },
+ {
+  "id": 123,
+  "joint": "Hip",
+  "topic": "Femur-on-pelvis arthrokinematics",
+  "set": "Exam 2 review",
+  "stem": "A patient lacks hip external rotation with a capsular end feel. Which description of open-chain hip ER is MOST accurate, and which glide should you use?",
+  "options": [
+   "The femoral head rolls and glides posteriorly; use a posterior glide",
+   "The femoral head rolls anteriorly and glides posteriorly; use a posterior glide",
+   "The femoral head rolls posteriorly and glides anteriorly; use a posterior glide",
+   "The femoral head rolls posteriorly and glides anteriorly; use an anterior glide"
+  ],
+  "rationale": [
+   "The posterior roll is right, but convex-on-concave motion glides in the opposite direction (anteriorly).",
+   "Opposite roll and glide is right, but this describes IR. A posterior glide improves IR and flexion.",
+   "The arthrokinematics are right, but the mobilization should follow the glide: anterior for ER.",
+   "Correct. The convex head moves on the concave acetabulum, so roll and glide go in opposite directions. ER needs the anterior glide."
+  ],
+  "answer": 3,
+  "explanation": "Open-chain hip arthrokinematics (convex on concave, opposite roll and glide): abduction rolls superiorly and glides inferiorly; adduction rolls inferiorly and glides superiorly; IR rolls anteriorly and glides posteriorly; ER rolls posteriorly and glides anteriorly. Flexion and extension in the sagittal plane are mostly a spin of the head. Mobilization: posterior glide for flexion and IR; anterior glide for extension and ER; inferior glide for abduction and flexion."
+ },
+ {
+  "id": 124,
+  "joint": "Hip",
+  "topic": "Pelvis-on-femur (transverse plane)",
+  "set": "Exam 2 review",
+  "stem": "Standing on the LEFT leg, a patient rotates the pelvis so the RIGHT ASIS moves posteriorly (backward rotation) while keeping the trunk facing forward. Which motions occur?",
+  "options": [
+   "Left hip IR, with the lumbar spine rotating opposite to the pelvis",
+   "Left hip ER, with the lumbar spine rotating opposite to the pelvis to keep the trunk facing forward",
+   "Left hip ER, with the lumbar spine rotating in the same direction as the pelvis",
+   "Right hip ER, because the vertical axis passes through the swing limb"
+  ],
+  "rationale": [
+   "The opposite lumbar rotation is right, but backward rotation produces ER of the stance hip. Forward rotation produces IR.",
+   "Correct. Backward rotation of the swing side about a vertical axis through the stance limb is ER of the stance hip. Keeping the trunk forward needs lumbar rotation in the opposite direction.",
+   "Left hip ER is right, but rotating the lumbar spine with the pelvis would turn the whole trunk. Keeping the trunk forward needs opposite rotation.",
+   "ER is the right motion, but the axis passes through the stance (left) limb, so the left hip is the one that rotates."
+  ],
+  "answer": 1,
+  "explanation": "Pelvis-on-femur rotation in single-limb stance happens at the stance hip. Forward rotation (swing-side ASIS moves forward) = stance hip IR; backward rotation = stance hip ER. When the head and trunk stay facing forward, the lumbar spine rotates opposite to the pelvis (lumbopelvic counter-rotation), as in gait."
+ },
+ {
+  "id": 125,
+  "joint": "Hip",
+  "topic": "Acetabular coverage (CEA)",
+  "set": "Exam 2 review",
+  "stem": "On an AP pelvis radiograph, how is the center-edge angle (CEA) drawn, and what does a LARGER angle mean?",
+  "options": [
+   "Between a horizontal line through both femoral head centers and a line to the lateral acetabular rim; larger means more coverage",
+   "Between a vertical line through the center of the femoral head and a line to the lateral acetabular rim; larger means dysplasia",
+   "Between a vertical line through the center of the femoral head and a line from the head center to the lateral acetabular rim; larger means more superolateral coverage",
+   "Between the femoral neck axis and the femoral shaft axis; larger means more coverage"
+  ],
+  "rationale": [
+   "Larger meaning more coverage is right, but the reference line is vertical through the head center. The horizontal inter-head line is used only to set that vertical.",
+   "The construction is right, but dysplasia is a SMALL angle (below about 16–20°), meaning under-coverage.",
+   "Correct. The CEA measures how far the lateral acetabular roof extends over the head. Larger angles mean more coverage; very large (above about 40°) suggests coxa profunda and pincer FAI.",
+   "Using two lines drawn on the femur is the right idea for a femoral angle, but that construction is the angle of inclination, not the CEA."
+  ],
+  "answer": 2,
+  "explanation": "CEA (Wiberg angle): vertical through the head center to the lateral acetabular edge. Normal is about 25–30°; 16–25° is possible dysplasia; below 16° is dysplasia; above 40° is coxa profunda. Low CEA raises rim and labral contact stress; high CEA predisposes to pincer impingement."
+ },
+ {
+  "id": 126,
+  "joint": "Gait",
+  "topic": "Loading response muscles",
+  "set": "Exam 2 review",
+  "stem": "During loading response, which muscles work ECCENTRICALLY to control motion at the hip, knee, and ankle-foot?",
+  "options": [
+   "Gluteus maximus and hamstrings (hip flexion), quadriceps (knee flexion), tibialis anterior (ankle plantarflexion), and tibialis posterior (subtalar pronation)",
+   "Gluteus maximus (hip), quadriceps (knee), and gastrocnemius-soleus (ankle plantarflexion)",
+   "Iliopsoas (hip), quadriceps (knee flexion), and tibialis anterior (ankle plantarflexion)",
+   "Gluteus maximus (hip), hamstrings extending the knee concentrically, and tibialis anterior (ankle)"
+  ],
+  "rationale": [
+   "Correct. Each joint moves with gravity as weight is accepted, and the muscle on the opposite side lengthens to control it.",
+   "The hip and knee are right, but in loading response the foot plantarflexes to the floor (heel rocker), controlled by the dorsiflexors. The calf works eccentrically later, in midstance.",
+   "The knee and ankle are right, but the hip is being pushed into flexion, so the extensors (gluteus maximus, hamstrings) control it.",
+   "The hip and ankle are right, but the knee flexes about 15° in loading response, controlled eccentrically by the quadriceps."
+  ],
+  "answer": 0,
+  "explanation": "Loading response is about accepting weight while staying stable. External flexion moments at the hip and knee and a plantarflexion moment at the ankle are controlled by the hip extensors, quadriceps, and pretibial muscles working eccentrically. The tibialis posterior decelerates subtalar pronation, and the hip abductors control the contralateral pelvic drop."
+ },
+ {
+  "id": 127,
+  "joint": "Gait",
+  "topic": "Shock absorption",
+  "set": "Exam 2 review",
+  "stem": "Which set of motions provides SHOCK ABSORPTION in gait, and in which phase does it mainly occur?",
+  "options": [
+   "Hip flexion, knee flexion, ankle plantarflexion, and subtalar pronation, mainly in terminal stance",
+   "Knee flexion and subtalar supination, mainly in loading response",
+   "Hip extension, knee extension, and ankle dorsiflexion, mainly in loading response",
+   "Hip flexion, knee flexion (about 15°), ankle plantarflexion, and subtalar pronation, mainly in loading response"
+  ],
+  "rationale": [
+   "The motions are right, but they happen in loading response. In terminal stance the limb is extending and the foot supinating for push-off.",
+   "Knee flexion and the phase are right, but the subtalar joint pronates to absorb shock and unlock the midfoot.",
+   "The phase is right, but these motions advance the body later in stance. Shock absorption needs flexion, plantarflexion, and pronation.",
+   "Correct. Controlled yielding at each joint spreads the impact of weight acceptance over time and distance."
+  ],
+  "answer": 3,
+  "explanation": "Shock absorption happens mainly in initial contact to loading response: hip flexion with contralateral pelvic drop (about 5°), knee flexion (about 15°), ankle plantarflexion (heel rocker), and subtalar pronation that unlocks the transverse tarsal joint. Each motion is controlled eccentrically."
+ },
+ {
+  "id": 128,
+  "joint": "Gait",
+  "topic": "Rockers",
+  "set": "Exam 2 review",
+  "stem": "Which listing correctly matches the rockers of forward progression to their phases of gait?",
+  "options": [
+   "Heel rocker: initial contact–loading response. Ankle rocker: terminal stance. Forefoot rocker: midstance. Toe rocker: pre-swing",
+   "Heel rocker: initial contact–loading response. Ankle rocker: midstance. Forefoot rocker: terminal stance. Toe rocker: pre-swing",
+   "Heel rocker: midstance. Ankle rocker: loading response. Forefoot rocker: terminal stance. Toe rocker: pre-swing",
+   "Heel rocker: initial contact–loading response. Ankle rocker: midstance. Forefoot rocker: pre-swing. Toe rocker: initial swing"
+  ],
+  "rationale": [
+   "The heel and toe rockers are right, but the ankle rocker (tibia advancing over the flat foot) is midstance and the forefoot rocker (heel rise) is terminal stance.",
+   "Correct. The pivot point moves from the heel, to the ankle, to the metatarsal heads, to the toe tip as the body moves over the foot.",
+   "The forefoot and toe rockers are right, but the heel rocker is initial contact to loading response and the ankle rocker is midstance.",
+   "The heel and ankle rockers are right, but the forefoot rocker begins with heel rise in terminal stance, and the toe rocker is in pre-swing while the foot is still on the ground."
+  ],
+  "answer": 1,
+  "explanation": "Heel rocker: the foot lowers around the calcaneus (tibialis anterior eccentric). Ankle rocker: the tibia advances over the planted foot by dorsiflexion (soleus and gastrocnemius eccentric). Forefoot rocker: the heel rises and the body rolls over the metatarsal heads with MTP extension (calf and windlass). Toe rocker: the limb pivots on the hallux tip before toe-off."
+ },
+ {
+  "id": 129,
+  "joint": "Gait",
+  "topic": "Stance stability",
+  "set": "Exam 2 review",
+  "stem": "'Stance stability' is the ability to support body weight over one limb in an upright posture. Which muscles are MOST vital for hip stability from loading response to midstance?",
+  "options": [
+   "Gluteus medius and minimus, with the iliopsoas controlling hip flexion",
+   "The hip adductors and gluteus maximus",
+   "Gluteus medius and minimus (frontal-plane pelvic control) and gluteus maximus (control of hip flexion)",
+   "The swing-side gluteus medius, which lifts the swing-side pelvis"
+  ],
+  "rationale": [
+   "The abductors are right, but the hip flexion moment in early stance is controlled by the extensors. The iliopsoas works in late stance and early swing.",
+   "The gluteus maximus is right, but the adductors do not hold the pelvis level against a contralateral drop. The abductors do.",
+   "Correct. The abductors keep the pelvis level over the stance femur, and the gluteus maximus resists the hip flexion moment of weight acceptance.",
+   "The gluteus medius is right, but it is the STANCE-side muscle that keeps the opposite side of the pelvis from dropping."
+  ],
+  "answer": 2,
+  "explanation": "From loading response to midstance the body's center of mass is medial to the stance hip, creating an external adduction moment. The stance-side gluteus medius and minimus (with the upper gluteus maximus and TFL) resist it, while the gluteus maximus and hamstrings control hip flexion. Weakness shows up as a Trendelenburg sign or a compensatory lateral trunk lean."
+ },
+ {
+  "id": 130,
+  "joint": "Gait",
+  "topic": "Short iliopsoas",
+  "set": "Exam 2 review",
+  "stem": "A patient presents with a stiff, short iliopsoas. Which gait deviation is expected, and in which phase?",
+  "options": [
+   "Reduced hip extension with a forward trunk lean or increased anterior pelvic tilt and lumbar lordosis, in terminal stance",
+   "Reduced hip extension with a forward trunk lean or anterior pelvic tilt, in loading response",
+   "Reduced hip extension in terminal stance, compensated by a LONGER step with the other leg",
+   "Excessive anterior pelvic tilt in terminal stance, caused by a lengthened, weak iliopsoas"
+  ],
+  "rationale": [
+   "Correct. Terminal stance needs about 10–20° of hip extension. A short iliopsoas blocks it, so the pelvis tilts anteriorly or the trunk leans forward to keep advancing.",
+   "The deviation is right, but hip extension is needed in terminal stance. In loading response the hip is flexed.",
+   "The phase is right, but losing hip extension shortens the contralateral step length.",
+   "The anterior tilt and phase are right, but the cause is a short, stiff hip flexor that pulls the pelvis forward as the hip tries to extend."
+  ],
+  "answer": 0,
+  "explanation": "Hip flexor tightness limits terminal-stance extension. Common compensations: increased anterior pelvic tilt and lumbar lordosis, forward trunk lean, increased knee flexion, early heel rise, and a shortened contralateral step. Check with the Thomas test."
+ },
+ {
+  "id": 131,
+  "joint": "Gait",
+  "topic": "Lateral trunk lean",
+  "set": "Exam 2 review",
+  "stem": "A patient presents with a lateral trunk lean TOWARD the stance leg. Which muscle is likely long or weak, and in which phase of gait is the lean seen?",
+  "options": [
+   "The swing-side gluteus medius; loading response through midstance",
+   "The stance-side gluteus medius; during that leg's swing phase",
+   "The stance-side quadratus lumborum; loading response through midstance",
+   "The stance-side gluteus medius; loading response through midstance"
+  ],
+  "rationale": [
+   "The phase is right, but the lean protects the stance-side abductors, which are the ones holding the pelvis level.",
+   "The muscle is right, but the abductors work, and the lean appears, while the limb is bearing weight.",
+   "The phase is right, but the quadratus lumborum hikes the pelvis on the swing side. The lean compensates for weak stance-side hip abductors.",
+   "Correct. Leaning over the stance hip moves the center of mass closer to the hip axis, which reduces the adduction torque the weak abductors must resist (compensated Trendelenburg)."
+  ],
+  "answer": 3,
+  "explanation": "Uncompensated Trendelenburg: the contralateral pelvis drops during stance. Compensated Trendelenburg: the trunk leans toward the stance side so gravity's moment arm about the hip shrinks. Both point to stance-side gluteus medius weakness or a lengthened gluteus medius, seen from loading response through midstance."
+ },
+ {
+  "id": 132,
+  "joint": "Gait",
+  "topic": "Ankle rocker control",
+  "set": "Exam 2 review",
+  "stem": "In midstance the tibia advances over the planted foot. Which muscle action controls this, and what happens if it is weak?",
+  "options": [
+   "Concentric tibialis anterior pulling the tibia forward; weakness causes foot slap",
+   "Eccentric soleus and gastrocnemius; weakness lets the tibia advance too quickly, causing excessive dorsiflexion and knee flexion (crouch) and a weak push-off",
+   "Eccentric soleus and gastrocnemius; weakness causes knee hyperextension in midstance",
+   "Eccentric quadriceps; weakness causes excessive knee flexion in midstance"
+  ],
+  "rationale": [
+   "Foot slap from tibialis anterior weakness is a real deviation, but it occurs at loading response. Tibial advance in midstance is controlled by the plantarflexors.",
+   "Correct. The plantarflexors are the brakes on the ankle rocker. When they are weak the tibia collapses forward and the knee flexes.",
+   "The plantarflexors are right, but weakness lets the tibia move forward, producing excessive knee flexion. Hyperextension is linked to quadriceps weakness or a plantarflexion contracture.",
+   "Excessive knee flexion is the right consequence, but it is the plantarflexors that control tibial advance at the ankle."
+  ],
+  "answer": 1,
+  "explanation": "The soleus is the key stabilizer of the tibia over the foot in midstance; together with the gastrocnemius it controls the ankle rocker eccentrically and then works concentrically for push-off in terminal stance. Plantarflexor weakness produces excessive dorsiflexion, crouch gait, a shortened contralateral step, and reduced push-off."
  }
 ];

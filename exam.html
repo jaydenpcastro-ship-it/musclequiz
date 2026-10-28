@@ -65,7 +65,7 @@
   .start{padding-block:40px 64px;display:grid;gap:28px}
   .start h1{font-size:clamp(28px,6vw,40px);font-weight:700}
   .lede{font-size:16px;max-width:62ch;margin:10px 0 0}
-  .blueprint{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .blueprint{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
   .bp{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
   .bp b{display:block;font-family:var(--font-display);font-size:28px;font-weight:600}
   .rules{margin:0;padding-left:20px;display:grid;gap:6px;max-width:66ch}
@@ -165,7 +165,8 @@
   .empty{padding:24px;text-align:center;border:1px dashed var(--border);border-radius:var(--radius)}
 
   @media (max-width:560px){
-    .blueprint,.tally{grid-template-columns:1fr 1fr 1fr}
+    .blueprint{grid-template-columns:1fr 1fr}
+    .tally{grid-template-columns:1fr 1fr 1fr}
     .bp b,.tally b{font-size:22px}
     .brow{grid-template-columns:84px minmax(0,1fr) 74px;font-size:13px}
     .stem{font-size:16px}
@@ -184,7 +185,8 @@
   "use strict";
   var BANK = window.NPTE_EXAM || [];
   var BY_ID = {}; BANK.forEach(function(q){ BY_ID[q.id] = q; });
-  var JOINTS = ["Hip","Knee","Ankle & Foot"];
+  var JOINTS = ["Hip","Knee","Ankle & Foot","Gait"];
+  var REVIEW_SET = "Exam 2 review";
   var SEC_PER_Q = 72;            // NPTE pace: 5 hours for 250 items
   var TARGET = 70;               // practice target, shown as a marker on the bars
   var KEY = "pt611-biomech-exam-v1";
@@ -212,8 +214,8 @@
   /* ---------- attempt lifecycle ---------- */
   function newAttempt(ids, opts){
     var order = opts.shuffleQ ? shuffle(ids) : ids.slice();
-    if(!opts.shuffleQ){ // keep joints grouped in bank order
-      order.sort(function(a,b){ return a-b; });
+    if(!opts.shuffleQ){ // keep joints grouped (Hip, Knee, Ankle & Foot, Gait), bank order within each
+      order.sort(function(a,b){ return (JOINTS.indexOf(BY_ID[a].joint) - JOINTS.indexOf(BY_ID[b].joint)) || a-b; });
     }
     var perm = {};
     order.forEach(function(id){ perm[id] = opts.shuffleO ? shuffle([0,1,2,3]) : [0,1,2,3]; });
@@ -224,8 +226,12 @@
   }
   function startFromSetup(){
     var s = ui.setup;
-    var ids = BANK.filter(function(q){ return s.section === "all" || q.joint === s.section; }).map(function(q){ return q.id; });
-    newAttempt(ids, { shuffleQ:s.shuffleQ, shuffleO:s.shuffleO, timer:s.timer, label: s.section === "all" ? "Full exam" : s.section + " section" });
+    var ids = BANK.filter(function(q){ return inSection(q, s.section); }).map(function(q){ return q.id; });
+    var label = s.section === "all" ? "Full exam" : s.section === REVIEW_SET ? "Exam 2 review set" : s.section + " section";
+    newAttempt(ids, { shuffleQ:s.shuffleQ, shuffleO:s.shuffleO, timer:s.timer, label: label });
+  }
+  function inSection(q, section){
+    return section === "all" || q.joint === section || (section === REVIEW_SET && q.set === REVIEW_SET);
   }
   function submit(){
     S.submitted = true; S.view = "results"; S.finishedAt = Date.now();
@@ -261,7 +267,8 @@
     var saved = load();
     var counts = {}; JOINTS.forEach(function(j){ counts[j] = BANK.filter(function(q){ return q.joint === j; }).length; });
     var s = ui.setup;
-    var nSel = s.section === "all" ? BANK.length : counts[s.section];
+    var nReview = BANK.filter(function(q){ return q.set === REVIEW_SET; }).length;
+    var nSel = BANK.filter(function(q){ return inSection(q, s.section); }).length;
     var resume = "";
     if(saved && !saved.submitted && saved.ids){
       var a = saved.ids.filter(function(id){ return saved.answers[id] != null; }).length;
@@ -276,16 +283,16 @@
     app.innerHTML =
       '<main class="wrap start">' +
         '<header><div class="eyebrow">NPTE-style practice · PT 611</div>' +
-          '<h1>Hip, Knee &amp; Ankle-Foot Biomechanics</h1>' +
-          '<p class="lede dim">' + BANK.length + ' one-best-answer questions built from the Hip, Knee, and Ankle-Foot lecture decks. Arthrokinematics, alignment angles, ligament restraints, kinetic-chain coupling, and joint loading.</p></header>' +
+          '<h1>Hip, Knee, Ankle-Foot &amp; Gait Biomechanics</h1>' +
+          '<p class="lede dim">' + BANK.length + ' one-best-answer questions built from the Hip, Knee, and Ankle-Foot lecture decks and the Exam 2 review sheet. Arthrokinematics, alignment angles, ligament restraints, kinetic-chain coupling, joint loading, and gait.</p></header>' +
         '<section class="blueprint" aria-label="Exam blueprint">' + JOINTS.map(function(j){ return '<div class="bp"><b class="num">' + counts[j] + '</b><span class="dim">' + esc(j) + '</span></div>'; }).join("") + '</section>' +
         resume +
         '<section class="panel" aria-label="Exam settings">' +
-          '<fieldset><legend>Questions</legend><div class="seg">' + seg("section","all","All " + BANK.length) + JOINTS.map(function(j){ return seg("section", j, j + " (" + counts[j] + ")"); }).join("") + '</div></fieldset>' +
+          '<fieldset><legend>Questions</legend><div class="seg">' + seg("section","all","All " + BANK.length) + JOINTS.map(function(j){ return seg("section", j, j + " (" + counts[j] + ")"); }).join("") + (nReview ? seg("section", REVIEW_SET, "Exam 2 review only (" + nReview + ")") : "") + '</div></fieldset>' +
           '<fieldset><legend>Timing</legend><div class="seg">' + seg("timer","npte","NPTE pace · " + fmt(nSel*SEC_PER_Q)) + seg("timer","off","Untimed") + '</div>' +
             '<div class="dim" style="font-size:13px">NPTE pace is 72 seconds per question (5 hours for 250 items). The exam submits itself when time runs out.</div></fieldset>' +
           '<fieldset><legend>Order</legend>' +
-            '<label class="check"><input type="checkbox" id="shuffleQ"' + (s.shuffleQ?' checked':'') + '><span>Mix questions from all joints <span class="dim">(off keeps Hip, Knee, then Ankle &amp; Foot)</span></span></label>' +
+            '<label class="check"><input type="checkbox" id="shuffleQ"' + (s.shuffleQ?' checked':'') + '><span>Mix questions from all joints <span class="dim">(off keeps Hip, Knee, Ankle &amp; Foot, then Gait)</span></span></label>' +
             '<label class="check"><input type="checkbox" id="shuffleO"' + (s.shuffleO?' checked':'') + '><span>Shuffle answer choices each attempt</span></label></fieldset>' +
           '<div class="row"><button class="btn primary" id="begin">Start exam · ' + nSel + ' questions</button></div>' +
         '</section>' +

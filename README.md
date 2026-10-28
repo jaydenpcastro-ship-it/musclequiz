@@ -78,9 +78,10 @@ do get a device later they can claim that name by tapping it on the join screen.
 
 ## NPTE-style practice exam (`exam.html`)
 
-A separate, self-paced exam for individual study: **100 questions on hip, knee, and
-ankle-foot biomechanics** (Hip 33 · Knee 33 · Ankle & Foot 34), written from the PT 611
-lecture decks. No Supabase or setup needed. Open `exam.html` (on GitHub Pages:
+A separate, self-paced exam for individual study: **132 questions on hip, knee,
+ankle-foot, and gait biomechanics** (Hip 39 · Knee 42 · Ankle & Foot 44 · Gait 7). Questions
+1–100 were written from the PT 611 lecture decks; questions 101–132 (the "Exam 2 review"
+set) follow the Exam 2 review sheet and can be taken on their own. No Supabase or setup needed. Open `exam.html` (on GitHub Pages:
 `https://<your-username>.github.io/musclequiz/exam.html`).
 
 - NPTE format: four choices, one best answer, optional NPTE pacing (72 s per question)
@@ -92,7 +93,8 @@ lecture decks. No Supabase or setup needed. Open `exam.html` (on GitHub Pages:
 
 The bank lives in `exam-questions.js`. Each entry has `stem`, `options[4]`,
 `rationale[4]` (why each choice is right or wrong), `answer` (zero-based), and `explanation`.
-Correct answers are spread evenly across A–D.
+Correct answers are spread across A–D. Exam 2 review questions also carry
+`set: "Exam 2 review"`.
 
 ---
 
@@ -134,7 +136,7 @@ well beyond what a classroom quiz warrants.
 | `config.js` | Your Supabase credentials (the only file you must edit) |
 | `schema.sql` | Database schema — run once in the Supabase SQL Editor |
 | `questions.js` | The question bank for the live quiz |
-| `exam.html` | NPTE-style 100-question biomechanics practice exam |
+| `exam.html` | NPTE-style 132-question biomechanics practice exam |
 | `exam-questions.js` | Question bank, rationales, and explanations for the practice exam |
 
 No build step, no dependencies to install. It's four static files.
